@@ -100,10 +100,9 @@ body {
   margin-left: 500px;
 }
 
-.featured-recipe-box1, 
-.featured-recipe-box2, 
-.featured-recipe-box3 {
+.featured-recipe-box {
   display: flex;
+  flex-direction: column;
   border-color: black;
   border: solid 2px;
   background-color: white;

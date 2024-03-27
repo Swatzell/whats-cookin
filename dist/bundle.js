@@ -15,11 +15,13 @@ window.addEventListener('DOMContentLoaded', createFeaturedRecipe);
 function createFeaturedRecipe() {
   featuredRecipeBoxes.forEach((box, index) => {
     const recipe = recipeData[index];
-    const image = recipe.image;
-    const name = recipe.name;
+    const image = recipe[index].image;
+    const name = recipe[index].name;
 
-    box.innerHTML = `<img src="${image}" alt="${name}">
-    <p>${name}</p>`;
+    box.innerHTML =`<div class="featured-recipe-box">
+    <img class="card-image" src="${image}" alt=${name}>
+    <h2 class="card-title">${name}</h2>
+  </div>`;
     // Add click event listener to the boxes
     box.addEventListener('click', () => displayRecipeDetails(recipe.id));
   });
