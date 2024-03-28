@@ -14,6 +14,7 @@ const searchInput = document.querySelector(".search-input")
 searchButton.addEventListener('click', function(){
   const searchName = searchInput.value;
   const searchResult = searchRecipeName(recipeData, searchName);
+  console.log(searchResult)
   generateRecipeCards(searchResult);
 })
 
