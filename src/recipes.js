@@ -26,6 +26,7 @@ export const createRecipesNeeded = (recipeID, recipeData, ingredientsData) => {
 
   return ingredientsNamesArray;
 };
+console.log(createRecipesNeeded)
 
 export const calculateRecipeCost = (recipeID, recipeData, ingredientsData) => {
   const recipe = recipeData.find((recipe) => recipe.id === recipeID);
