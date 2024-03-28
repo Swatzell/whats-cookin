@@ -2,48 +2,74 @@ import recipeData from "./data/recipes";
 
 //NEW QUERYSELECTORS
 const homeSection = document.querySelector('.main-page');
-const recipesSection = document.getElementById('recipes-section');
-const ingredientsSection = document.getElementById('ingredients-section');
+const recipeSection = document.getElementById('recipe-page');
+const ingredientsSection = document.getElementById('ingredients-page');
 const featuredRecipesSection = document.querySelector(".featured-recipes");
-const allRecipesSection = document.querySelector(".all-recipes");
+const allRecipesSection = document.querySelector(".all-recipes-page");
+const homeButton = document.querySelector(".home-button");
+const recipeButton= document.querySelector(".recipe-button");
+const ingredientButton = document.querySelector(".ingredients-button")
+const savedRecipesSection = document.querySelector(".user-saved-recipes")
 
-// window.addEventListener('DOMContentLoaded', createFeaturedRecipe);
+
+// Event listener for the navigation links
+
+  recipeButton.addEventListener('click', function(event) {
+    event.preventDefault();
+    showAllRecipesPage();})
 
 
+homeButton.addEventListener('click', function() {
+  showHomePage();})
 
-// Function to hide all sections
-// function hideAllSections() {
-//   homeSection.classList.add('hidden');
-//   recipesSection.classList.add('hidden');
-//   ingredientsSection.classList.add('hidden');
-// }
+  ingredientButton.addEventListener('click', function() {
+    showIngredientsPage();})
 
-function hideHomeSection() {
+  
+  
+    function showIngredientsPage(){
+    homeSection.classList.add('hidden');
+    allRecipesSection.classList.add('hidden');
+    ingredientsSection.classList.remove('hidden');
+    recipeSection.classList.add('hidden');
+    savedRecipesSection.classList.add('hidden');
+  
+
+  }
+
+
+function showAllRecipesPage(){
   homeSection.classList.add('hidden');
-  allRecipesSection.classList.remove('hidden')
+  allRecipesSection.classList.remove('hidden');
+  ingredientsSection.classList.add('hidden');
+  recipeSection.classList.add('hidden');
+  savedRecipesSection.classList.add('hidden');
+
+}
+
+function showHomePage() {
+  homeSection.classList.remove('hidden');
+  allRecipesSection.classList.add('hidden');
+  ingredientsSection.classList.add('hidden');
+  recipeSection.classList.add('hidden');
+  savedRecipesSection.classList.add('hidden');
+
 }
 
 // Function to show a specified section
-function showSection(section) {
+function showHome() {
   section.classList.remove('hidden');
 }
 
-// Event listener for the navigation links
-document.querySelectorAll('.topnav a').forEach(link => {
-  link.addEventListener('click', function(event) {
-    // Prevent default suggested by chat
-    event.preventDefault();
-    
-    // Invoke hide all sections
-    hideHomeSection();
+
     
     // Once all sections are hidden, immediately show the proper section based on the href attribute
-    const targetId = this.getAttribute('href').slice(1);
-    const targetSection = document.getElementById(targetId);
-    showSection(targetSection);
-    console.log(`'NOW YOU"RE ON ${targetSection}'`)
-  });
-});
+//     const targetId = this.getAttribute('href').slice(1);
+//     const targetSection = document.getElementById(targetId);
+//     showSection(targetSection);
+//     console.log(`'NOW YOU"RE ON ${targetSection}'`)
+//   });
+// });
 
 // document.addEventListener("DOMContentLoaded", function () {
   
