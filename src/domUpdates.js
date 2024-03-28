@@ -1,4 +1,5 @@
 import recipeData from "./data/recipes";
+import { searchRecipeName } from "./recipes";
 
 //NEW QUERYSELECTORS
 const homeSection = document.querySelector('.main-page');
@@ -6,9 +7,15 @@ const recipesSection = document.getElementById('recipes-section');
 const ingredientsSection = document.getElementById('ingredients-section');
 const featuredRecipesSection = document.querySelector(".featured-recipes");
 const allRecipesSection = document.querySelector(".all-recipes");
+const searchButton = document.querySelector(".search-button")
+const searchInput = document.querySelector(".search-input")
 
 // window.addEventListener('DOMContentLoaded', createFeaturedRecipe);
-
+searchButton.addEventListener('click', function(){
+  const searchName = searchInput.value;
+  const searchResult = searchRecipeName(recipeData, searchName);
+  generateRecipeCards(searchResult);
+})
 
 
 // Function to hide all sections
