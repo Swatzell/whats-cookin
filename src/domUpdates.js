@@ -82,7 +82,7 @@ function showHome() {
 //   });
 // });
 
-// document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", generateRecipeCards(recipeData))
   
   // Function to generate recipe cards
   function populateRecipePage() {
@@ -113,12 +113,12 @@ function showHome() {
     });
   }
 
-  function generateRecipeCards() {
+  function generateRecipeCards(recipeInput) {
     featuredRecipesSection.innerHTML = ""; // Clear existing cards
     
     // Display only the first 3 recipes
-    for (let i = 0; i < 3 && i < recipeData.length; i++) {
-      const recipe = recipeData[i];
+    for (let i = 0; i < recipeInput.length; i++) {
+      const recipe = recipeInput[i];
       
       const card = document.createElement("div");
       card.className = "featured-recipe-box";
