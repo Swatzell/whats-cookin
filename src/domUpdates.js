@@ -19,9 +19,8 @@ searchButton.addEventListener('click', function(){
   const searchName = searchInput.value;
   const searchResult = searchRecipeName(recipeData, searchName);
   console.log(searchResult)
-  generateRecipeCards(searchResult);
+  filteredRecipeCards(searchResult);
 })
-
 
 
 
@@ -150,7 +149,35 @@ function findRecipeById(event) {
   }
 }
 
-function generateRecipeCards(recipeInput) {
+function generateRecipeCards() {
+  featuredRecipesSection.innerHTML = "";
+
+  // Display only the first 3 recipes
+  for (let i = 0; i < recipeData.length; i++) {
+    const recipe = recipeData[i];
+
+    const card = document.createElement("div");
+    card.className = "featured-recipe-box";
+    card.id = recipe.id;
+
+    const image = document.createElement("img");
+    image.className = "card-image";
+    image.src = recipe.image;
+    image.alt = recipe.name;
+
+    const title = document.createElement("h2");
+    title.className = "card-title";
+    title.textContent = recipe.name;
+
+    card.appendChild(image);
+    card.appendChild(title);
+
+    featuredRecipesSection.appendChild(card);
+  }
+}
+
+//this is a copy and paste that is dedicated towards searches
+function filteredRecipeCards(recipeInput) {
   featuredRecipesSection.innerHTML = "";
 
   // Display only the first 3 recipes
@@ -177,6 +204,9 @@ function generateRecipeCards(recipeInput) {
   }
 }
 
+
 generateRecipeCards();
 populateAllRecipesPage();
 showFullRecipe();
+
+
