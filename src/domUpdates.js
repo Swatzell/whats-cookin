@@ -1,5 +1,6 @@
 import recipeData from "./data/recipes";
 import { searchRecipeName } from "./recipes";
+import ingredientsData from "./data/ingredients";
 
 
 //NEW QUERYSELECTORS
@@ -270,41 +271,40 @@ function filteredRecipeCards(recipeInput) {
   }
 }
 
-//MOST RECENT ADDITIONS FOR CREATING
+// //MOST RECENT ADDITIONS FOR CREATING
 
-//GENERATE TAGS AND NUMBER OF MATCHING RECIPE TAGS BASED ON THE TAGS ARRAY
-function generateRecipeTags(tagsList) {
-  tagsList.forEach(tag => {
-    const filteredRecipes = findRecipeTags(recipeData, tag);
-    const tagElement = document.createElement("div");
-    tagElement.textContent = `${tag} (${filteredRecipes.length})`; // Include the count
-    tagElement.className = "recipe-tag";
-    tagElement.addEventListener("click", () => filterRecipesByTag(tag));
-    recipeTagsSection.appendChild(tagElement);
-  });
-}
+// //GENERATE TAGS AND NUMBER OF MATCHING RECIPE TAGS BASED ON THE TAGS ARRAY
+// function generateRecipeTags(tagsList) {
+//   tagsList.forEach(tag => {
+//     const filteredRecipes = findRecipeTags(recipeData, tag);
+//     const tagElement = document.createElement("div");
+//     tagElement.textContent = `${tag} (${filteredRecipes.length})`; // Include the count
+//     tagElement.className = "recipe-tag";
+//     tagElement.addEventListener("click", () => filterRecipesByTag(tag));
+//     recipeTagsSection.appendChild(tagElement);
+//   });
+// }
 
-//FILTER THE RECIPES BY THEIR SPECIFIC TAG
-function filterRecipesByTag(tag) {
-  const filteredRecipes = findRecipeTags(recipeData, tag);
-  navigateToSearchResultsPage();
+// //FILTER THE RECIPES BY THEIR SPECIFIC TAG
+// function filterRecipesByTag(tag) {
+//   const filteredRecipes = findRecipeTags(recipeData, tag);
+//   navigateToSearchResultsPage();
 
-  console.log("FILTERED RECIPES", filteredRecipes);
-}
+//   console.log("FILTERED RECIPES", filteredRecipes);
+// }
 
-function navigateToSearchResultsPage() {
-  homeSection.classList.add("hidden");
-  allRecipesSection.classList.add("hidden");
-  ingredientsSection.classList.add("hidden");
-  recipePage.classList.add("hidden");
-  savedRecipesSection.classList.add("hidden");
-  searchResultsPage.classList.remove("hidden");
-}
+// function navigateToSearchResultsPage() {
+//   homeSection.classList.add("hidden");
+//   allRecipesSection.classList.add("hidden");
+//   ingredientsSection.classList.add("hidden");
+//   recipePage.classList.add("hidden");
+//   savedRecipesSection.classList.add("hidden");
+//   searchResultsPage.classList.remove("hidden");
+// }
 
 
-generateRecipeTags(tagsList);
+// generateRecipeTags(tagsList);
 generateRecipeCards();
 populateAllRecipesPage();
 showFullRecipe();
-
 
