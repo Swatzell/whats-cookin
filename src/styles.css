@@ -118,4 +118,32 @@ body {
   }
 
 
-  
+/* RUDIMENTARY CSS FOR THE TAGS ASIDE */
+
+
+.recipe-tags {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #F9F9F9;
+  padding: 20px;
+  width: 200px; 
+  font-size: 16px; 
+}
+
+.recipe-tag {
+  margin-bottom: 10px;
+  cursor: pointer;
+  display: flex; 
+  justify-content: space-between; 
+}
+
+.recipe-tag span {
+  font-weight: bold;
+}
+
+
+.search-results {
+  display: none;
+}
