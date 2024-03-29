@@ -1,13 +1,6 @@
 import recipeData from "./data/recipes";
 import { searchRecipeName } from "./recipes";
-//IMPORTING FINDRECIPETAGS AND ARRAY OF ALL TAGS
-import { findRecipeTags } from "./recipes";
 
-const tagsList = [
-  'antipasti', 'antipasto', 'appetizer', 'breakfast', 'brunch', 'condiment',
-  'dinner', 'dip', "hor d'oeuvre", 'lunch', 'main course', 'main dish',
-  'morning meal', 'salad', 'sauce', 'side dish', 'snack', 'spread', 'starter'
-];
 
 //NEW QUERYSELECTORS
 const homeSection = document.querySelector(".main-page");
@@ -117,6 +110,42 @@ function populateAllRecipesPage() {
   });
 }
 
+function displayIngredients(selectedRecipe, ingredientsData) {
+  const ingredientsTitle = document.createElement("h3");
+  ingredientsTitle.className = "section-title";
+  ingredientsTitle.textContent = "Ingredients";
+
+  const ingredientsList = document.createElement("ul");
+  ingredientsList.className = "recipe-ingredients";
+  
+  selectedRecipe.ingredients.forEach((ingredientItem) => {
+    const ingredient = ingredientsData.find(
+      (data) => data.id === ingredientItem.id
+    );
+
+    const listItem = document.createElement("li");
+    listItem.textContent = `${ingredient.name}: ${ingredientItem.quantity.amount} ${ingredientItem.quantity.unit}`;
+    ingredientsList.appendChild(listItem);
+  });
+  return { ingredientsTitle, ingredientsList };
+}
+
+function calculateRecipeCost(selectedRecipe, ingredientsData) {
+  let totalCost = 0;
+
+  selectedRecipe.ingredients.forEach((ingredientItem) => {
+    const ingredientData = ingredientsData.find(
+      (data) => data.id === ingredientItem.id
+    );
+
+    if (ingredientData) {
+      totalCost += ingredientData.estimatedCostInCents * ingredientItem.quantity.amount;
+    }
+  });
+
+  return totalCost / 100;
+}
+
 function showFullRecipe(selectedRecipe) {
   recipePage.innerHTML = "";
 
@@ -132,27 +161,53 @@ function showFullRecipe(selectedRecipe) {
   title.className = "card-title";
   title.textContent = selectedRecipe.name;
 
-  const instructions = document.createElement("h3");
-  instructions.className = "recipe-instructions";
-  selectedRecipe.instructions.map((instruction) => {
-    instructions.textContent = instruction.instruction;
+  
+  const instructionsTitle = document.createElement("h3");
+  instructionsTitle.className = "instructions-title";
+  instructionsTitle.textContent = "Instructions";
+  
+  const instructionsList = document.createElement("ul");
+  instructionsList.className = "recipe-instructions";
+  selectedRecipe.instructions.forEach((instruction) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = instruction.instruction;
+    instructionsList.appendChild(listItem);
+  });
+  const { ingredientsTitle, ingredientsList } = displayIngredients(selectedRecipe, ingredientsData);
+  const totalCost = calculateRecipeCost(selectedRecipe, ingredientsData);
+  const totalCostElement = document.createElement("p");
+  totalCostElement.className = "recipe-total-cost";
+  totalCostElement.textContent = `Total Cost: $${totalCost.toFixed(2)}`;
+
+  const tagsTitle = document.createElement("h3");
+  tagsTitle.className = "tags-title";
+  tagsTitle.textContent = "Tags";
+
+  const tagsList = document.createElement("ul");
+  tagsList.className = "recipe-tags";
+  selectedRecipe.tags.forEach((tag) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = tag;
+    tagsList.appendChild(listItem);
   });
 
-  const tags = document.createElement("h3");
-  tags.className = "recipe-tags";
-  tags.textContent = selectedRecipe.tags;
-
+  
   fullRecipe.appendChild(image);
   fullRecipe.appendChild(title);
-  fullRecipe.appendChild(instructions);
-  fullRecipe.appendChild(tags);
+  fullRecipe.appendChild(instructionsTitle);
+  fullRecipe.appendChild(instructionsList);
+  fullRecipe.appendChild(tagsTitle);
+  fullRecipe.appendChild(tagsList);
+  fullRecipe.appendChild(ingredientsTitle);
+  fullRecipe.appendChild(ingredientsList);
+  fullRecipe.appendChild(totalCostElement);
 
   recipePage.appendChild(fullRecipe);
 }
 
+
 function findRecipeById(event) {
   const recipeId = +event.target.closest(".featured-recipe-box").id;
-  console.log(`>>>>>>>>>`, recipeId);
   const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
 
   if (selectedRecipe) {
@@ -164,7 +219,7 @@ function generateRecipeCards() {
   featuredRecipesSection.innerHTML = "";
 
   // Display only the first 3 recipes
-  for (let i = 0; i < recipeData.length; i++) {
+  for (let i = 0; i < 3 && i < recipeData.length; i++) {
     const recipe = recipeData[i];
 
     const card = document.createElement("div");
