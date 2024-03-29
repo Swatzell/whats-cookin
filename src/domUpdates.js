@@ -1,5 +1,13 @@
 import recipeData from "./data/recipes";
 import { searchRecipeName } from "./recipes";
+//IMPORTING FINDRECIPETAGS AND ARRAY OF ALL TAGS
+import { findRecipeTags } from "./recipes";
+
+const tagsList = [
+  'antipasti', 'antipasto', 'appetizer', 'breakfast', 'brunch', 'condiment',
+  'dinner', 'dip', "hor d'oeuvre", 'lunch', 'main course', 'main dish',
+  'morning meal', 'salad', 'sauce', 'side dish', 'snack', 'spread', 'starter'
+];
 
 //NEW QUERYSELECTORS
 const homeSection = document.querySelector(".main-page");
@@ -13,6 +21,9 @@ const ingredientButton = document.querySelector(".ingredients-button");
 const savedRecipesSection = document.querySelector(".user-saved-recipes");
 const searchButton = document.querySelector(".search-button")
 const searchInput = document.querySelector(".search-input")
+//JARVIS NEW QUERY SELECTORS
+const searchResultsPage = document.querySelector('.search-results')
+const recipeTagsSection = document.querySelector(".recipe-tags");
 
 // window.addEventListener('DOMContentLoaded', createFeaturedRecipe);
 searchButton.addEventListener('click', function(){
@@ -146,7 +157,7 @@ function findRecipeById(event) {
 
   if (selectedRecipe) {
     showFullRecipe(selectedRecipe);
-  }
+  } 
 }
 
 function generateRecipeCards() {
@@ -204,7 +215,39 @@ function filteredRecipeCards(recipeInput) {
   }
 }
 
+//MOST RECENT ADDITIONS FOR CREATING
 
+//GENERATE TAGS AND NUMBER OF MATCHING RECIPE TAGS BASED ON THE TAGS ARRAY
+function generateRecipeTags(tagsList) {
+  tagsList.forEach(tag => {
+    const filteredRecipes = findRecipeTags(recipeData, tag);
+    const tagElement = document.createElement("div");
+    tagElement.textContent = `${tag} (${filteredRecipes.length})`; // Include the count
+    tagElement.className = "recipe-tag";
+    tagElement.addEventListener("click", () => filterRecipesByTag(tag));
+    recipeTagsSection.appendChild(tagElement);
+  });
+}
+
+//FILTER THE RECIPES BY THEIR SPECIFIC TAG
+function filterRecipesByTag(tag) {
+  const filteredRecipes = findRecipeTags(recipeData, tag);
+  navigateToSearchResultsPage();
+
+  console.log("FILTERED RECIPES", filteredRecipes);
+}
+
+function navigateToSearchResultsPage() {
+  homeSection.classList.add("hidden");
+  allRecipesSection.classList.add("hidden");
+  ingredientsSection.classList.add("hidden");
+  recipePage.classList.add("hidden");
+  savedRecipesSection.classList.add("hidden");
+  searchResultsPage.classList.remove("hidden");
+}
+
+
+generateRecipeTags(tagsList);
 generateRecipeCards();
 populateAllRecipesPage();
 showFullRecipe();
