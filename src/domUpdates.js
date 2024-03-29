@@ -307,6 +307,16 @@ function saveRecipeToUser(user, recipe) {
     user.recipesToCook.push(newRecipe);
   }
 }
+//  Here is an Example of how to use the handleRecipeClick function with a  recipe cards data id and users id attributes
+// <div class="recipe-card" data-id="595736" data-user="Saige O'Kon">
+//     <!-- card content -->
+// </div>
+
+// document.querySelectorAll('.recipe-card').forEach(card => {
+//   card.addEventListener('click', handleRecipeClick);
+// }); you can probably manipulate this all to work with a little heart image or something similar on the recipe card
+
+
 
 // this will handle the recipe click you'll just have to modify
 function handleRecipeClick(event) {
