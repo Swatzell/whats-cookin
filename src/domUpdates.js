@@ -24,7 +24,6 @@ searchButton.addEventListener('click', function(){
 
 
 
-
 allRecipesSection.addEventListener("click", (e) => {
   findRecipeById(e);
   navigateToRecipePage();
@@ -177,6 +176,7 @@ function generateRecipeCards() {
   }
 }
 
+//this is a copy and paste that is dedicated towards searches
 function filteredRecipeCards(recipeInput) {
   featuredRecipesSection.innerHTML = "";
 
