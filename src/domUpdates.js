@@ -153,7 +153,7 @@ function generateRecipeCards() {
   featuredRecipesSection.innerHTML = "";
 
   // Display only the first 3 recipes
-  for (let i = 0; i < recipeData.length; i++) {
+  for (let i = 0; i < 3 && i < recipeData.length; i++) {
     const recipe = recipeData[i];
 
     const card = document.createElement("div");
