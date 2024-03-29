@@ -107,6 +107,24 @@ function populateAllRecipesPage() {
   });
 }
 
+function displayIngredients(selectedRecipe, ingredientsData) {
+  const ingredientsTitle = document.createElement("h3");
+  ingredientsTitle.className = "section-title";
+  ingredientsTitle.textContent = "Ingredients";
+
+  const ingredientsList = document.createElement("ul");
+  ingredientsList.className = "recipe-ingredients";
+  
+  selectedRecipe.ingredients.forEach((ingredientItem) => {
+    const ingredient = ingredientsData.find(
+      (data) => data.id === ingredientItem.id
+    );
+
+    const listItem = document.createElement("li");
+    listItem.textContent = `${ingredient.name}: ${ingredientItem.quantity.amount} ${ingredientItem.quantity.unit}`;
+    ingredientsList.appendChild(listItem);
+  });
+
 function showFullRecipe(selectedRecipe) {
   recipePage.innerHTML = "";
 
