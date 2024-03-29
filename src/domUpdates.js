@@ -23,11 +23,19 @@ const recipeTagsSection = document.querySelector(".recipe-tags");
 searchButton.addEventListener('click', function(){
   const searchName = searchInput.value;
   const searchResult = searchRecipeName(recipeData, searchName);
-  console.log(searchResult)
   filteredRecipeCards(searchResult);
+  showSearchResultsPage()
 })
 
+function showSearchResultsPage(){
+  homeSection.classList.add("hidden");
+  allRecipesSection.classList.add("hidden");
+  ingredientsSection.classList.add("hidden");
+  recipePage.classList.add("hidden");
+  savedRecipesSection.classList.add("hidden");
+  searchResultsPage.classList.remove("hidden")
 
+}
 
 allRecipesSection.addEventListener("click", (e) => {
   findRecipeById(e);
