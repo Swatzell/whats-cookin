@@ -208,3 +208,5 @@ function filteredRecipeCards(recipeInput) {
 generateRecipeCards();
 populateAllRecipesPage();
 showFullRecipe();
+
+
