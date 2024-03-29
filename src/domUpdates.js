@@ -1,5 +1,6 @@
 import recipeData from "./data/recipes";
 import { searchRecipeName } from "./recipes";
+import ingredientsData from "./data/ingredients";
 
 //NEW QUERYSELECTORS
 const homeSection = document.querySelector(".main-page");
