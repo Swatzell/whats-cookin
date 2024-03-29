@@ -170,6 +170,11 @@ function showFullRecipe(selectedRecipe) {
     listItem.textContent = instruction.instruction;
     instructionsList.appendChild(listItem);
   });
+  const { ingredientsTitle, ingredientsList } = displayIngredients(selectedRecipe, ingredientsData);
+  const totalCost = calculateRecipeCost(selectedRecipe, ingredientsData);
+  const totalCostElement = document.createElement("p");
+  totalCostElement.className = "recipe-total-cost";
+  totalCostElement.textContent = `Total Cost: $${totalCost.toFixed(2)}`;
 
   const tagsTitle = document.createElement("h3");
   tagsTitle.className = "tags-title";
@@ -190,6 +195,9 @@ function showFullRecipe(selectedRecipe) {
   fullRecipe.appendChild(instructionsList);
   fullRecipe.appendChild(tagsTitle);
   fullRecipe.appendChild(tagsList);
+  fullRecipe.appendChild(ingredientsTitle);
+  fullRecipe.appendChild(ingredientsList);
+  fullRecipe.appendChild(totalCostElement);
 
   recipePage.appendChild(fullRecipe);
 }
