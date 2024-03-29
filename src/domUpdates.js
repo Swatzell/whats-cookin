@@ -124,6 +124,9 @@ function displayIngredients(selectedRecipe, ingredientsData) {
     listItem.textContent = `${ingredient.name}: ${ingredientItem.quantity.amount} ${ingredientItem.quantity.unit}`;
     ingredientsList.appendChild(listItem);
   });
+  return { ingredientsTitle, ingredientsList };
+}
+
 
 function showFullRecipe(selectedRecipe) {
   recipePage.innerHTML = "";
