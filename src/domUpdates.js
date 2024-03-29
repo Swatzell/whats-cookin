@@ -127,6 +127,21 @@ function displayIngredients(selectedRecipe, ingredientsData) {
   return { ingredientsTitle, ingredientsList };
 }
 
+function calculateRecipeCost(selectedRecipe, ingredientsData) {
+  let totalCost = 0;
+
+  selectedRecipe.ingredients.forEach((ingredientItem) => {
+    const ingredientData = ingredientsData.find(
+      (data) => data.id === ingredientItem.id
+    );
+
+    if (ingredientData) {
+      totalCost += ingredientData.estimatedCostInCents * ingredientItem.quantity.amount;
+    }
+  });
+
+  return totalCost / 100;
+}
 
 function showFullRecipe(selectedRecipe) {
   recipePage.innerHTML = "";
