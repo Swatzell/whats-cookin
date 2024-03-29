@@ -1,4 +1,5 @@
 import recipeData from "./data/recipes";
+import { searchRecipeName } from "./recipes";
 
 //NEW QUERYSELECTORS
 const homeSection = document.querySelector(".main-page");
@@ -10,6 +11,19 @@ const homeButton = document.querySelector(".home-button");
 const recipeButton = document.querySelector(".recipe-button");
 const ingredientButton = document.querySelector(".ingredients-button");
 const savedRecipesSection = document.querySelector(".user-saved-recipes");
+const searchButton = document.querySelector(".search-button")
+const searchInput = document.querySelector(".search-input")
+
+// window.addEventListener('DOMContentLoaded', createFeaturedRecipe);
+searchButton.addEventListener('click', function(){
+  const searchName = searchInput.value;
+  const searchResult = searchRecipeName(recipeData, searchName);
+  console.log(searchResult)
+  generateRecipeCards(searchResult);
+})
+
+
+
 
 allRecipesSection.addEventListener("click", (e) => {
   findRecipeById(e);
@@ -136,12 +150,12 @@ function findRecipeById(event) {
   }
 }
 
-function generateRecipeCards() {
+function generateRecipeCards(recipeInput) {
   featuredRecipesSection.innerHTML = "";
 
   // Display only the first 3 recipes
-  for (let i = 0; i < 3 && i < recipeData.length; i++) {
-    const recipe = recipeData[i];
+  for (let i = 0; i < recipeInput.length; i++) {
+    const recipe = recipeInput[i];
 
     const card = document.createElement("div");
     card.className = "featured-recipe-box";
