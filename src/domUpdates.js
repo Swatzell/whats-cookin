@@ -1,6 +1,8 @@
 import recipeData from "./data/recipes";
 import { searchRecipeName } from "./recipes";
 import ingredientsData from "./data/ingredients";
+import usersData from "./data/users";
+
 
 
 //NEW QUERYSELECTORS
@@ -15,27 +17,27 @@ const ingredientButton = document.querySelector(".ingredients-button");
 const savedRecipesSection = document.querySelector(".user-saved-recipes");
 const searchButton = document.querySelector(".search-button")
 const searchInput = document.querySelector(".search-input")
-//JARVIS NEW QUERY SELECTORS
-const searchResultsPage = document.querySelector('.search-results')
+const savedRecipePage = document.querySelector(".saved-recipes-page")
 const recipeTagsSection = document.querySelector(".recipe-tags");
 
 // window.addEventListener('DOMContentLoaded', createFeaturedRecipe);
 searchButton.addEventListener('click', function(){
+  
   const searchName = searchInput.value;
   const searchResult = searchRecipeName(recipeData, searchName);
   filteredRecipeCards(searchResult);
-  showSearchResultsPage()
+  
 })
 
-function showSearchResultsPage(){
-  homeSection.classList.add("hidden");
-  allRecipesSection.classList.add("hidden");
-  ingredientsSection.classList.add("hidden");
-  recipePage.classList.add("hidden");
-  savedRecipesSection.classList.add("hidden");
-  searchResultsPage.classList.remove("hidden")
+// function showSearchResultsPage(){
+//   homeSection.classList.add("hidden");
+//   allRecipesSection.classList.add("hidden");
+//   ingredientsSection.classList.add("hidden");
+//   recipePage.classList.add("hidden");
+//   savedRecipesSection.classList.add("hidden");
+//   searchResultsPage.classList.remove("hidden")
 
-}
+// }
 
 allRecipesSection.addEventListener("click", (e) => {
   findRecipeById(e);
@@ -278,7 +280,84 @@ function filteredRecipeCards(recipeInput) {
     featuredRecipesSection.appendChild(card);
   }
 }
+// This will save recipes to the user and push it into the recipes to cook array
+function saveRecipeToUser(user, recipe) {
+  const newRecipe = {
+    id: recipe.id,
+    image: recipe.image,
+    name: recipe.name,
+    ingredients: recipe.ingredients.map(ingredient => {
+      const { id, quantity } = ingredient;
+      const { amount, unit } = quantity;
+      const ingredientData = ingredientsData.find(data => data.id === id);
+      return {
+        id,
+        name: ingredientData ? ingredientData.name : 'Unknown',
+        amount,
+        unit
+      };
+    }),
+    instructions: recipe.instructions.map(instruction => instruction.instruction),
+    tags: recipe.tags
+  };
 
+  const isDuplicate = user.recipesToCook.some(savedRecipe => savedRecipe.id === newRecipe.id);
+
+  if (!isDuplicate) {
+    user.recipesToCook.push(newRecipe);
+  }
+}
+
+// this will handle the recipe click you'll just have to modify
+function handleRecipeClick(event) {
+  const recipeId = parseInt(event.currentTarget.getAttribute('data-id'));
+  const recipe = recipeData.find(recipe => recipe.id === recipeId);
+  const userName = event.currentTarget.getAttribute('data-user');
+  const user = usersData.find(user => user.name === userName);
+
+  if (recipe && user) {
+    saveRecipeToUser(user, recipe);
+    console.log(`Recipe ${recipe.name} saved to ${user.name}'s recipesToCook`);
+  } else {
+    console.error('Recipe or user not found');
+  }
+}
+
+// This function is to display saved recipes in the savedRecipePage section I added to HTML
+function displayUserRecipes(userName) {
+  const user = usersData.find(user => user.name === userName);
+  const recipesSection = document.getElementById('userRecipes'); // Assuming you have a div with id 'userRecipes' to display the recipes
+  
+  if (user) {
+    savedRecipePage.innerHTML = '';
+    
+    user.recipesToCook.forEach(recipe => {
+      const recipeElement = document.createElement('div');
+      recipeElement.classList.add('recipe-item');
+      
+      recipeElement.innerHTML = `
+        <img src="${recipe.image}" alt="${recipe.name}" class="recipe-image">
+        <h2>${recipe.name}</h2>
+        <h3>Ingredients:</h3>
+        <ul>
+          ${recipe.ingredients.map(ingredient => `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`).join('')}
+        </ul>
+        <h3>Instructions:</h3>
+        <ol>
+          ${recipe.instructions.map(instruction => `<li>${instruction}</li>`).join('')}
+        </ol>
+        <h3>Tags:</h3>
+        <ul>
+          ${recipe.tags.map(tag => `<li>${tag}</li>`).join('')}
+        </ul>
+      `;
+      
+      savedRecipePage.appendChild(recipeElement);
+    });
+  } else {
+    savedRecipePage.innerHTML = '<p>No recipes saved yet.</p>';
+  }
+}
 // //MOST RECENT ADDITIONS FOR CREATING
 
 // //GENERATE TAGS AND NUMBER OF MATCHING RECIPE TAGS BASED ON THE TAGS ARRAY
