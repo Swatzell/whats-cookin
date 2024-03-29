@@ -158,10 +158,17 @@ function showFullRecipe(selectedRecipe) {
   title.className = "card-title";
   title.textContent = selectedRecipe.name;
 
-  const instructions = document.createElement("h3");
-  instructions.className = "recipe-instructions";
-  selectedRecipe.instructions.map((instruction) => {
-    instructions.textContent = instruction.instruction;
+  
+  const instructionsTitle = document.createElement("h3");
+  instructionsTitle.className = "instructions-title";
+  instructionsTitle.textContent = "Instructions";
+  
+  const instructionsList = document.createElement("ul");
+  instructionsList.className = "recipe-instructions";
+  selectedRecipe.instructions.forEach((instruction) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = instruction.instruction;
+    instructionsList.appendChild(listItem);
   });
 
   const tagsTitle = document.createElement("h3");
@@ -179,7 +186,8 @@ function showFullRecipe(selectedRecipe) {
   
   fullRecipe.appendChild(image);
   fullRecipe.appendChild(title);
-  fullRecipe.appendChild(instructions);
+  fullRecipe.appendChild(instructionsTitle);
+  fullRecipe.appendChild(instructionsList);
   fullRecipe.appendChild(tagsTitle);
   fullRecipe.appendChild(tagsList);
 
