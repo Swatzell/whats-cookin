@@ -164,21 +164,31 @@ function showFullRecipe(selectedRecipe) {
     instructions.textContent = instruction.instruction;
   });
 
-  const tags = document.createElement("h3");
-  tags.className = "recipe-tags";
-  tags.textContent = selectedRecipe.tags;
+  const tagsTitle = document.createElement("h3");
+  tagsTitle.className = "tags-title";
+  tagsTitle.textContent = "Tags";
 
+  const tagsList = document.createElement("ul");
+  tagsList.className = "recipe-tags";
+  selectedRecipe.tags.forEach((tag) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = tag;
+    tagsList.appendChild(listItem);
+  });
+
+  
   fullRecipe.appendChild(image);
   fullRecipe.appendChild(title);
   fullRecipe.appendChild(instructions);
-  fullRecipe.appendChild(tags);
+  fullRecipe.appendChild(tagsTitle);
+  fullRecipe.appendChild(tagsList);
 
   recipePage.appendChild(fullRecipe);
 }
 
+
 function findRecipeById(event) {
   const recipeId = +event.target.closest(".featured-recipe-box").id;
-  console.log(`>>>>>>>>>`, recipeId);
   const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
 
   if (selectedRecipe) {
