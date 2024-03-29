@@ -52,3 +52,5 @@ export const getRecipeInstructions = (recipeID, recipeData) => {
   const recipe = recipeData.find((recipe) => recipe.id === recipeID);
   return recipe.instructions.map((instruction) => `${instruction.number}: ${instruction.instruction}`);;
 };
+
+
