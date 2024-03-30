@@ -105,6 +105,15 @@ function showIngredientsPage() {
   savedRecipesSection.classList.add("hidden");
 }
 
+function resetFilteredResultsPage() {
+  homeSection.classList.remove("hidden");
+  allRecipesSection.classList.add("hidden");
+  ingredientsSection.classList.add("hidden");
+  recipePage.classList.add("hidden");
+  savedRecipesSection.classList.add("hidden");
+  featuredRecipesSection.innerHTML = "";
+}
+
 function showAllRecipesPage() {
   console.log("SHOW ALL RECIPES PAGE INITIATED")
   homeSection.classList.add("hidden");
@@ -297,8 +306,8 @@ function generateRecipeCards() {
 //this is a copy and paste that is dedicated towards searches
 function filteredRecipeCards(recipeInput) {
   console.log("FILTERED RECIPE CARDS INITIATED")
-  featuredRecipesSection.innerHTML = "";
-
+  resetFilteredResultsPage()
+ 
   // Display only the first 3 recipes
   for (let i = 0; i < recipeInput.length; i++) {
     const recipe = recipeInput[i];

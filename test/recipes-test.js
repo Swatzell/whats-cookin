@@ -21,6 +21,12 @@ describe("Recipe Tag", () => {
     expect(recipe[0].name).to.deep.equal("Dirty Steve's Original Wing Sauce");
   });
 
+  it("Should return a filtered list of recipes based on a tag regardless of case sensitivity", () => {
+    const recipe = findRecipeTags(recipeData, "sauce");
+    expect(recipe[0].name).to.deep.equal("Dirty Steve's Original Wing Sauce");
+  });
+
+
   describe("Recipe Ingredient", () => {
     it("Should be a function", () => {
       expect(searchRecipeName).to.be.a("function");

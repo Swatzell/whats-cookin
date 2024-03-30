@@ -1,5 +1,6 @@
 body {
-  background: linear-gradient(#134d71,#78a7c6,#f7e4bf);
+  /* background: linear-gradient(#134d71,#78a7c6,#f7e4bf); */
+  background-color: #dbe5ed;
   min-height: 100vh;
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
@@ -18,7 +19,7 @@ body {
 
   .topnav {
     overflow: hidden;
-    background-color: #e9e9e9;
+    background-color: #006b95;
     display: flex;
     justify-content: center;
     align-items: baseline;
@@ -87,17 +88,25 @@ body {
 .featured-recipes {
   display: flex;
   justify-content: center;
-  
+  align-items: center;
+  flex-direction: column;
 }
 
 .whats-cookin-header{
   margin-left: 350px;
 }
 
+.main-page {
+  display: flex;
+  flex-direction: column;
+}
+
 .featured-recipes-header {
   margin-top: 150px;
   margin-bottom: 0px;
   margin-left: 500px;
+  display: flex;
+  justify-content: center;
 }
 
 .featured-recipe-box {
