@@ -11,6 +11,7 @@ const featuredRecipesSection = document.querySelector(".featured-recipes");
 const allRecipesSection = document.querySelector(".all-recipes-page");
 const homeButton = document.querySelector(".home-button");
 const recipeButton = document.querySelector(".recipe-button");
+const recipeHeader = document.querySelector(".featured-recipes-header")
 // //CHANGED LINE TO DROPDOWN BUTTON
 // const ingredientButton = document.querySelector(".ingredients-button");
 //CHANGED LINE
@@ -20,16 +21,7 @@ const searchButton = document.querySelector(".search-button")
 const searchInput = document.querySelector(".search-input")
 const savedRecipePage = document.querySelector(".saved-recipes-page")
 const recipeTagsSection = document.querySelector(".recipe-tags");
-
 // window.addEventListener('DOMContentLoaded', createFeaturedRecipe);
-
-//vvvvv Function takes search result and creates cards
-searchButton.addEventListener('click', function(){
-  const searchName = searchInput.value;
-  const searchResult = searchRecipeName(recipeData, searchName);
-  filteredRecipeCards(searchResult);
-  
-})
 
 
 // function showSearchResultsPage(){
@@ -73,6 +65,16 @@ homeButton.addEventListener("click", function () {
 // });
 //CHANGED LINE
 
+//vvvvv Function takes search result and creates cards
+searchButton.addEventListener('click', function(){
+  const searchName = searchInput.value;
+  const searchResult = searchRecipeName(recipeData, searchName);
+  filteredRecipeCards(searchResult);
+  recipeHeader.innerHTML=`Search Results by: "${searchInput.value}"`
+  searchInput.value = ''
+})
+
+
 // QUERY SELECTOR FOR THE TAGS
 const tagLinks = document.querySelectorAll('.dropdown-content a');
 
@@ -84,6 +86,7 @@ tagLinks.forEach(tag => {
     // CONSOLE LOG THE TAG AS WELL AS THE DATA TYPE
     const searchResult = findRecipeTags(recipeData, clickedTag);
     filteredRecipeCards(searchResult);
+    recipeHeader.innerHTML=`Recipes By Tag: "${clickedTag}"`
   });
 
 });
@@ -131,6 +134,7 @@ function showHomePage() {
   ingredientsSection.classList.add("hidden");
   recipePage.classList.add("hidden");
   savedRecipesSection.classList.add("hidden");
+  recipeHeader.innerText="This weeks featured recipes:"
   generateRecipeCards();
   populateAllRecipesPage();
   showFullRecipe();  
@@ -138,7 +142,7 @@ function showHomePage() {
 
 function populateAllRecipesPage() {
   console.log("POPULATE ALL RECIPES PAGE INITIATED")
-  allRecipesSection.innerHTML = "";
+
 
   recipeData.forEach((recipe) => {
     const card = document.createElement("div");

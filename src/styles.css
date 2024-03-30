@@ -92,8 +92,8 @@ body {
   flex-direction: column;
 }
 
-.whats-cookin-header{
-  margin-left: 350px;
+.all-recipes-page {
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .main-page {
