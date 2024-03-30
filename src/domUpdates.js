@@ -24,8 +24,9 @@ const savedRecipePage = document.querySelector(".saved-recipes-page")
 const recipeTagsSection = document.querySelector(".recipe-tags");
 
 // window.addEventListener('DOMContentLoaded', createFeaturedRecipe);
+
+//vvvvv Function takes search result and creates cards
 searchButton.addEventListener('click', function(){
-  
   const searchName = searchInput.value;
   const searchResult = searchRecipeName(recipeData, searchName);
   filteredRecipeCards(searchResult);
@@ -60,6 +61,11 @@ homeButton.addEventListener("click", function () {
   showHomePage();
 });
 
+
+//vvvv Change to Saved Recipes Page
+ingredientButton.addEventListener("click", function () {
+  showIngredientsPage();
+
 //CHANGED LINE FROM INGREDIENT TO DROPDOWNBUTTON
 // ingredientButton.addEventListener("click", function () {
 //   showIngredientsPage();
@@ -77,6 +83,7 @@ tagLinks.forEach(tag => {
     // CONSOLE LOG THE TAG AS WELL AS THE DATA TYPE
     console.log(`Clicked tag: ${clickedTag}`, typeof clickedTag);
   });
+
 });
 
 function navigateToRecipePage() {
@@ -86,8 +93,9 @@ function navigateToRecipePage() {
   recipePage.classList.remove("hidden");
   savedRecipesSection.classList.add("hidden");
 }
-
+//vvv Change to Saved Recipes Page
 function showIngredientsPage() {
+  console.log("SHOW INGREDIENTS PAGE FUNCTION INITITATED")
   homeSection.classList.add("hidden");
   allRecipesSection.classList.add("hidden");
   ingredientsSection.classList.remove("hidden");
@@ -96,6 +104,7 @@ function showIngredientsPage() {
 }
 
 function showAllRecipesPage() {
+  console.log("SHOW ALL RECIPES PAGE INITIATED")
   homeSection.classList.add("hidden");
   allRecipesSection.classList.remove("hidden");
   ingredientsSection.classList.add("hidden");
@@ -104,6 +113,7 @@ function showAllRecipesPage() {
 }
 
 function showHomePage() {
+  console.log("SHOW HOME PAGE INITIATED")
   homeSection.classList.remove("hidden");
   allRecipesSection.classList.add("hidden");
   ingredientsSection.classList.add("hidden");
@@ -112,6 +122,7 @@ function showHomePage() {
 }
 
 function populateAllRecipesPage() {
+  console.log("POPULATE ALL RECIPES PAGE INITIATED")
   allRecipesSection.innerHTML = "";
 
   recipeData.forEach((recipe) => {
@@ -140,6 +151,7 @@ function populateAllRecipesPage() {
 }
 
 function displayIngredients(selectedRecipe, ingredientsData) {
+  console.log("DISPLAY INGREDIENTS FUNCTION INITIATED")
   const ingredientsTitle = document.createElement("h3");
   ingredientsTitle.className = "section-title";
   ingredientsTitle.textContent = "Ingredients";
@@ -176,6 +188,7 @@ function calculateRecipeCost(selectedRecipe, ingredientsData) {
 }
 
 function showFullRecipe(selectedRecipe) {
+  console.log("SHOW FULL RECIPE FUNCTION INITIATED")
   recipePage.innerHTML = "";
 
   const fullRecipe = document.createElement("div");
@@ -202,6 +215,8 @@ function showFullRecipe(selectedRecipe) {
     listItem.textContent = instruction.instruction;
     instructionsList.appendChild(listItem);
   });
+
+  //Self note: These are blocks of HTML produced from the function
   const { ingredientsTitle, ingredientsList } = displayIngredients(selectedRecipe, ingredientsData);
   const totalCost = calculateRecipeCost(selectedRecipe, ingredientsData);
   const totalCostElement = document.createElement("p");
@@ -234,8 +249,9 @@ function showFullRecipe(selectedRecipe) {
   recipePage.appendChild(fullRecipe);
 }
 
-
+//vvvvv This only works on the main 
 function findRecipeById(event) {
+  console.log("FIND RECIPE BY ID INITIATED")
   const recipeId = +event.target.closest(".featured-recipe-box").id;
   const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
 
@@ -245,6 +261,7 @@ function findRecipeById(event) {
 }
 
 function generateRecipeCards() {
+  console.log("GENERATE RECIPE CARDS INITIATED")
   featuredRecipesSection.innerHTML = "";
 
   // Display only the first 3 recipes
@@ -273,6 +290,7 @@ function generateRecipeCards() {
 
 //this is a copy and paste that is dedicated towards searches
 function filteredRecipeCards(recipeInput) {
+  console.log("FILTERED RECIPE CARDS INITIATED")
   featuredRecipesSection.innerHTML = "";
 
   // Display only the first 3 recipes
@@ -300,6 +318,7 @@ function filteredRecipeCards(recipeInput) {
 }
 // This will save recipes to the user and push it into the recipes to cook array
 function saveRecipeToUser(user, recipe) {
+  console.log("SAVE RECIPE TO USER INITIATED")
   const newRecipe = {
     id: recipe.id,
     image: recipe.image,
@@ -338,6 +357,7 @@ function saveRecipeToUser(user, recipe) {
 
 // this will handle the recipe click you'll just have to modify
 function handleRecipeClick(event) {
+  console.log("HANDLE RECIPE CLICK INITIATED")
   const recipeId = parseInt(event.currentTarget.getAttribute('data-id'));
   const recipe = recipeData.find(recipe => recipe.id === recipeId);
   const userName = event.currentTarget.getAttribute('data-user');
