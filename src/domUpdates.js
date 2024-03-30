@@ -1,9 +1,7 @@
 import recipeData from "./data/recipes";
-import { searchRecipeName } from "./recipes";
+import { searchRecipeName, findRecipeTags } from "./recipes";
 import ingredientsData from "./data/ingredients";
 import usersData from "./data/users";
-
-
 
 //NEW QUERYSELECTORS
 const homeSection = document.querySelector(".main-page");
@@ -13,7 +11,7 @@ const featuredRecipesSection = document.querySelector(".featured-recipes");
 const allRecipesSection = document.querySelector(".all-recipes-page");
 const homeButton = document.querySelector(".home-button");
 const recipeButton = document.querySelector(".recipe-button");
-//CHANGED LINE TO DROPDOWN BUTTON
+// //CHANGED LINE TO DROPDOWN BUTTON
 // const ingredientButton = document.querySelector(".ingredients-button");
 //CHANGED LINE
 const dropdownButton = document.querySelector(".dropbtn");
@@ -32,6 +30,7 @@ searchButton.addEventListener('click', function(){
   filteredRecipeCards(searchResult);
   
 })
+
 
 // function showSearchResultsPage(){
 //   homeSection.classList.add("hidden");
@@ -63,8 +62,10 @@ homeButton.addEventListener("click", function () {
 
 
 //vvvv Change to Saved Recipes Page
-ingredientButton.addEventListener("click", function () {
-  showIngredientsPage();
+// ingredientButton.addEventListener("click", function () {
+//   showIngredientsPage();
+// });
+
 
 //CHANGED LINE FROM INGREDIENT TO DROPDOWNBUTTON
 // ingredientButton.addEventListener("click", function () {
@@ -75,13 +76,14 @@ ingredientButton.addEventListener("click", function () {
 // QUERY SELECTOR FOR THE TAGS
 const tagLinks = document.querySelectorAll('.dropdown-content a');
 
-// EVENTLISTENER FOR ANY OF THE TAGS THAT ARE CLICKED
+// EVENTLISTENER FOR ANY OF THE TAGS THAT ARE CLICKED 
 tagLinks.forEach(tag => {
   tag.addEventListener('click', function() {
     // STORE THE TEXT OF THE CLICKED TAG AS A STRING
     const clickedTag = this.textContent;
     // CONSOLE LOG THE TAG AS WELL AS THE DATA TYPE
-    console.log(`Clicked tag: ${clickedTag}`, typeof clickedTag);
+    const searchResult = findRecipeTags(recipeData, clickedTag);
+    filteredRecipeCards(searchResult);
   });
 
 });
@@ -114,11 +116,15 @@ function showAllRecipesPage() {
 
 function showHomePage() {
   console.log("SHOW HOME PAGE INITIATED")
+  allRecipesSection.innerHTML = "";
   homeSection.classList.remove("hidden");
   allRecipesSection.classList.add("hidden");
   ingredientsSection.classList.add("hidden");
   recipePage.classList.add("hidden");
   savedRecipesSection.classList.add("hidden");
+  generateRecipeCards();
+  populateAllRecipesPage();
+  showFullRecipe();  
 }
 
 function populateAllRecipesPage() {
@@ -441,5 +447,4 @@ function displayUserRecipes(userName) {
 // generateRecipeTags(tagsList);
 generateRecipeCards();
 populateAllRecipesPage();
-showFullRecipe();
-
+showFullRecipe()
