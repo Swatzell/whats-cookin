@@ -13,7 +13,10 @@ const featuredRecipesSection = document.querySelector(".featured-recipes");
 const allRecipesSection = document.querySelector(".all-recipes-page");
 const homeButton = document.querySelector(".home-button");
 const recipeButton = document.querySelector(".recipe-button");
-const ingredientButton = document.querySelector(".ingredients-button");
+//CHANGED LINE TO DROPDOWN BUTTON
+// const ingredientButton = document.querySelector(".ingredients-button");
+//CHANGED LINE
+const dropdownButton = document.querySelector(".dropbtn");
 const savedRecipesSection = document.querySelector(".user-saved-recipes");
 const searchButton = document.querySelector(".search-button")
 const searchInput = document.querySelector(".search-input")
@@ -57,8 +60,23 @@ homeButton.addEventListener("click", function () {
   showHomePage();
 });
 
-ingredientButton.addEventListener("click", function () {
-  showIngredientsPage();
+//CHANGED LINE FROM INGREDIENT TO DROPDOWNBUTTON
+// ingredientButton.addEventListener("click", function () {
+//   showIngredientsPage();
+// });
+//CHANGED LINE
+
+// QUERY SELECTOR FOR THE TAGS
+const tagLinks = document.querySelectorAll('.dropdown-content a');
+
+// EVENTLISTENER FOR ANY OF THE TAGS THAT ARE CLICKED
+tagLinks.forEach(tag => {
+  tag.addEventListener('click', function() {
+    // STORE THE TEXT OF THE CLICKED TAG AS A STRING
+    const clickedTag = this.textContent;
+    // CONSOLE LOG THE TAG AS WELL AS THE DATA TYPE
+    console.log(`Clicked tag: ${clickedTag}`, typeof clickedTag);
+  });
 });
 
 function navigateToRecipePage() {

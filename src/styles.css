@@ -118,32 +118,42 @@ body {
   }
 
 
-/* RUDIMENTARY CSS FOR THE TAGS ASIDE */
+/* CSS TO MATCH THE DROPDOWN TO THE REST OF THE TOPNAV */
 
-
-.recipe-tags {
-  position: fixed;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: #F9F9F9;
-  padding: 20px;
-  width: 200px; 
-  font-size: 16px; 
-}
-
-.recipe-tag {
-  margin-bottom: 10px;
+.dropbtn {
+  font-size: 17px;
+  border: none;
+  outline: none;
+  color: black;
+  padding: 14px 16px;
+  background-color: inherit;
+  margin-left: 100px;
   cursor: pointer;
-  display: flex; 
-  justify-content: space-between; 
 }
 
-.recipe-tag span {
-  font-weight: bold;
+.dropbtn:hover {
+  background-color: #ddd;
 }
 
-
-.search-results {
+/* Hide the dropdown content by default */
+.dropdown-content {
   display: none;
 }
+
+/* Show the dropdown content when dropdown button is hovered */
+.dropdown:hover .dropdown-content {
+  display: table-row;
+}
+
+/* Style the tags */
+.dropdown-content a {
+  display: column;
+  padding: 5px 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
