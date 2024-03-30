@@ -4,7 +4,7 @@ import ingredientsData from "./data/ingredients";
 
 export const findRecipeTags = (recipeData, tag) => {
   let recipeNamesTags = recipeData
-    .filter((recipe) => recipe.tags.includes(tag))
+    .filter((recipe) => recipe.tags.includes(tag.toLowerCase()))
   return recipeNamesTags;
 };
 
