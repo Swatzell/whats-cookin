@@ -16,6 +16,8 @@ const recipeHeader = document.querySelector(".featured-recipes-header")
 // const ingredientButton = document.querySelector(".ingredients-button");
 //CHANGED LINE
 const dropdownButton = document.querySelector(".dropbtn");
+const saveButton = document.querySelector(".save-button");
+
 const savedRecipesSection = document.querySelector(".user-saved-recipes");
 const searchButton = document.querySelector(".search-button")
 const searchInput = document.querySelector(".search-input")
@@ -51,6 +53,11 @@ recipeButton.addEventListener("click", function (event) {
 homeButton.addEventListener("click", function () {
   showHomePage();
 });
+
+addEventListener("click", (e) => {
+  if (e.target.classList.contains("save-button")){console.log()}
+});
+
 
 
 //vvvv Change to Saved Recipes Page
@@ -99,7 +106,7 @@ function navigateToRecipePage() {
   savedRecipesSection.classList.add("hidden");
 }
 //vvv Change to Saved Recipes Page
-function showIngredientsPage() {
+function showSavedRecipesPage() {
   console.log("SHOW INGREDIENTS PAGE FUNCTION INITITATED")
   homeSection.classList.add("hidden");
   allRecipesSection.classList.add("hidden");
@@ -143,7 +150,6 @@ function showHomePage() {
 function populateAllRecipesPage() {
   console.log("POPULATE ALL RECIPES PAGE INITIATED")
 
-
   recipeData.forEach((recipe) => {
     const card = document.createElement("div");
     card.className = "featured-recipe-box";
@@ -160,6 +166,7 @@ function populateAllRecipesPage() {
 
     card.appendChild(image);
     card.appendChild(title);
+    
 
     card.addEventListener("click", () => {
       findRecipeById(recipe.id);
@@ -222,6 +229,9 @@ function showFullRecipe(selectedRecipe) {
   title.className = "card-title";
   title.textContent = selectedRecipe.name;
 
+  const saveButton = document.createElement("button")
+  saveButton.className = "save-button"
+  saveButton.textContent = "SAVE TO RECIPE"
   
   const instructionsTitle = document.createElement("h3");
   instructionsTitle.className = "instructions-title";
@@ -257,6 +267,7 @@ function showFullRecipe(selectedRecipe) {
   
   fullRecipe.appendChild(image);
   fullRecipe.appendChild(title);
+  fullRecipe.appendChild(saveButton);
   fullRecipe.appendChild(instructionsTitle);
   fullRecipe.appendChild(instructionsList);
   fullRecipe.appendChild(tagsTitle);
@@ -300,8 +311,13 @@ function generateRecipeCards() {
     title.className = "card-title";
     title.textContent = recipe.name;
 
+    const saveButton = document.createElement("button")
+    saveButton.className = "save-button"
+    saveButton.textContent = "SAVE TO RECIPE"
+
     card.appendChild(image);
     card.appendChild(title);
+    card.appendChild(saveButton);
 
     featuredRecipesSection.appendChild(card);
   }
