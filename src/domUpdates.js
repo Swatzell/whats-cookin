@@ -21,6 +21,7 @@ const searchInput = document.querySelector(".search-input")
 const savedRecipePage = document.querySelector(".saved-recipes-page")
 const recipeTagsSection = document.querySelector(".recipe-tags");
 const tagContainer = document.querySelector('#tagContainer');
+const saveRecipeButton = document.querySelector('.save-button')
 
 let currentUser;
 
@@ -62,12 +63,10 @@ homeButton.addEventListener("click", function () {
 //Read: SAVE BUTTON event listener
 //1) This Function needs to be in a GLOBAL variable because the "Save Button" isn't built until AFTER the recipe cards are generated
 //2) Because this querySelector is built locally, this function listens to a "click" at ANY point in time to see if the event is ON the button that would potentially be built. 
-addEventListener("click", (e) => {
+saveRecipeButton.addEventListener("click", (e) => {
   if (e.target.classList.contains("save-button")) console.log("SAVE BUTTON INITIATED")
-  // saveRecipeToUser()
+  saveRecipeToUser(user, recipe)
 });
-
-const recipesToCook = []
 
 
 searchButton.addEventListener('click', searchByName)
@@ -100,11 +99,11 @@ function navigateToRecipePage() {
 //vvv Change to Saved Recipes Page
 function showSavedRecipesPage() {
   console.log("SHOW INGREDIENTS PAGE FUNCTION INITITATED")
-  // homeSection.classList.add("hidden");
-  // allRecipesSection.classList.add("hidden");
-  // ingredientsSection.classList.remove("hidden");
-  // recipePage.classList.add("hidden");
-  // savedRecipesSection.classList.add("hidden");
+  homeSection.classList.add("hidden");
+  allRecipesSection.classList.add("hidden");
+  ingredientsSection.classList.remove("hidden");
+  recipePage.classList.add("hidden");
+  savedRecipesSection.classList.add("hidden");
 }
 
 function resetFilteredResultsPage() {
