@@ -91,24 +91,22 @@ function navigateToRecipePage() {
   homeSection.classList.add("hidden");
   allRecipesSection.classList.add("hidden");
   recipePage.classList.remove("hidden");
-  savedRecipesSection.classList.add("hidden");
+  savedRecipePage.classList.add("hidden");
 }
 //vvv Change to Saved Recipes Page
 function showSavedRecipesPage() {
   console.log("SHOW INGREDIENTS PAGE FUNCTION INITITATED")
   homeSection.classList.add("hidden");
   allRecipesSection.classList.add("hidden");
-  ingredientsSection.classList.remove("hidden");
   recipePage.classList.add("hidden");
-  savedRecipesSection.classList.add("hidden");
+  savedRecipePage.classList.remove("hidden");
 }
 
 function resetFilteredResultsPage() {
   homeSection.classList.remove("hidden");
   allRecipesSection.classList.add("hidden");
-  ingredientsSection.classList.add("hidden");
   recipePage.classList.add("hidden");
-  savedRecipesSection.classList.add("hidden");
+  savedRecipePage.classList.add("hidden");
   featuredRecipesSection.innerHTML = "";
 }
 
@@ -116,9 +114,8 @@ function showAllRecipesPage() {
   console.log("SHOW ALL RECIPES PAGE INITIATED")
   homeSection.classList.add("hidden");
   allRecipesSection.classList.remove("hidden");
-  ingredientsSection.classList.add("hidden");
   recipePage.classList.add("hidden");
-  savedRecipesSection.classList.add("hidden");
+  savedRecipePage.classList.add("hidden");
 }
 
 function showHomePage() {
@@ -126,9 +123,8 @@ function showHomePage() {
   allRecipesSection.innerHTML = "";
   homeSection.classList.remove("hidden");
   allRecipesSection.classList.add("hidden");
-  ingredientsSection.classList.add("hidden");
   recipePage.classList.add("hidden");
-  savedRecipesSection.classList.add("hidden");
+  savedRecipePage.classList.add("hidden");
   recipeHeader.innerText="This weeks featured recipes:"
   generateRecipeCards();
   populateAllRecipesPage();
