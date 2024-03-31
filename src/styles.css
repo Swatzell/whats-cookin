@@ -166,3 +166,46 @@ body {
   background-color: #f1f1f1;
 }
 
+
+
+.recipe-image {
+  display: flex;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.featured-recipe-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-color: black;
+  border: solid 2px;
+  background-color: white;
+  height: 300px;
+  width: 300px;
+  margin-left: 70px;
+  margin-right: 70px;
+  margin-top: 80px;
+  border-radius: 10px;
+}
+
+.save-button {
+  position: relative;
+  bottom: -20px; /* Adjust this value to push the button up */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #006b95;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.save-button:hover {
+  background-color: #005580;
+}
+
