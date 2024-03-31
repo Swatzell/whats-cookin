@@ -7,7 +7,6 @@ import { getRandomInt } from "./random";
 //NEW QUERYSELECTORS
 const homeSection = document.querySelector(".main-page");
 const recipePage = document.querySelector(".recipe-page");
-const ingredientsSection = document.querySelector(".ingredients-page");
 const featuredRecipesSection = document.querySelector(".featured-recipes");
 const allRecipesSection = document.querySelector(".all-recipes-page");
 const homeButton = document.querySelector(".home-button");
@@ -15,7 +14,6 @@ const recipeButton = document.querySelector(".recipe-button");
 const recipeHeader = document.querySelector(".featured-recipes-header")
 const dropdownButton = document.querySelector(".dropbtn");
 const viewRecipesToCookSection = document.querySelector(".saved-recipe-button");
-const savedRecipesSection = document.querySelector(".user-saved-recipes");
 const searchButton = document.querySelector(".search-button")
 const searchInput = document.querySelector(".search-input")
 const savedRecipePage = document.querySelector(".saved-recipes-page")
@@ -92,7 +90,6 @@ tagContainer.addEventListener('click', function (e){
 function navigateToRecipePage() {
   homeSection.classList.add("hidden");
   allRecipesSection.classList.add("hidden");
-  ingredientsSection.classList.add("hidden");
   recipePage.classList.remove("hidden");
   savedRecipesSection.classList.add("hidden");
 }
