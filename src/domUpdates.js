@@ -14,8 +14,7 @@ const homeButton = document.querySelector(".home-button");
 const recipeButton = document.querySelector(".recipe-button");
 const recipeHeader = document.querySelector(".featured-recipes-header")
 const dropdownButton = document.querySelector(".dropbtn");
-const saveButton = document.querySelector(".save-button");
-const viewRecipesToCookSection = document.querySelector(".recipes-to-cook-button");
+const viewRecipesToCookSection = document.querySelector(".saved-recipe-button");
 const savedRecipesSection = document.querySelector(".user-saved-recipes");
 const searchButton = document.querySelector(".search-button")
 const searchInput = document.querySelector(".search-input")
@@ -28,8 +27,9 @@ let currentUser;
 function initialize(){
   generateRecipeCards();
   populateAllRecipesPage();
-  showFullRecipe();
+  // showFullRecipe();
   currentUser = getRandomUser() 
+  console.log("Current user: ", currentUser)
 }
 
 addEventListener('load', initialize)
@@ -53,9 +53,11 @@ homeButton.addEventListener("click", function () {
   showHomePage();
 });
 
-viewRecipesToCookSection.addEventListener("click", (e) => {
-  viewRecipesToCookSection()
-})
+//TO DO: This function will initiate to present all saved recipes
+// viewRecipesToCookSection.addEventListener("click", (e) => {
+//   viewRecipesToCookSection()
+// })
+
 
 //Read: SAVE BUTTON event listener
 //1) This Function needs to be in a GLOBAL variable because the "Save Button" isn't built until AFTER the recipe cards are generated
@@ -218,6 +220,7 @@ function showFullRecipe(selectedRecipe) {
   image.className = "recipe-image";
   image.src = selectedRecipe.image;
   image.alt = selectedRecipe.name;
+  console.log("Selected Recipe: ", selectedRecipe)
 
   const title = document.createElement("h2");
   title.className = "card-title";
@@ -279,6 +282,7 @@ function findRecipeById(event) {
   const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
 
   if (selectedRecipe) {
+    console.log("selected recipe: ", selectedRecipe)
     showFullRecipe(selectedRecipe);
   } 
 }
