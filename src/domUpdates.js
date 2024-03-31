@@ -2,6 +2,7 @@ import recipeData from "./data/recipes";
 import { searchRecipeName, findRecipeTags } from "./recipes";
 import ingredientsData from "./data/ingredients";
 import usersData from "./data/users";
+import { getRandomInt } from "./random";
 
 //NEW QUERYSELECTORS
 const homeSection = document.querySelector(".main-page");
@@ -12,34 +13,32 @@ const allRecipesSection = document.querySelector(".all-recipes-page");
 const homeButton = document.querySelector(".home-button");
 const recipeButton = document.querySelector(".recipe-button");
 const recipeHeader = document.querySelector(".featured-recipes-header")
-// //CHANGED LINE TO DROPDOWN BUTTON
-// const ingredientButton = document.querySelector(".ingredients-button");
-//CHANGED LINE
 const dropdownButton = document.querySelector(".dropbtn");
 const saveButton = document.querySelector(".save-button");
-
+const viewRecipesToCookSection = document.querySelector(".recipes-to-cook-button");
 const savedRecipesSection = document.querySelector(".user-saved-recipes");
 const searchButton = document.querySelector(".search-button")
 const searchInput = document.querySelector(".search-input")
 const savedRecipePage = document.querySelector(".saved-recipes-page")
 const recipeTagsSection = document.querySelector(".recipe-tags");
-// window.addEventListener('DOMContentLoaded', createFeaturedRecipe);
+const tagContainer = document.querySelector('#tagContainer');
 
+let currentUser;
 
-// function showSearchResultsPage(){
-//   homeSection.classList.add("hidden");
-//   allRecipesSection.classList.add("hidden");
-//   ingredientsSection.classList.add("hidden");
-//   recipePage.classList.add("hidden");
-//   savedRecipesSection.classList.add("hidden");
-//   searchResultsPage.classList.remove("hidden")
+function initialize(){
+  generateRecipeCards();
+  populateAllRecipesPage();
+  showFullRecipe();
+  currentUser = getRandomUser() 
+}
 
-// }
+addEventListener('load', initialize)
 
 allRecipesSection.addEventListener("click", (e) => {
   findRecipeById(e);
   navigateToRecipePage();
 });
+
 homeSection.addEventListener("click", (e) => {
   findRecipeById(e);
   navigateToRecipePage();
@@ -54,49 +53,40 @@ homeButton.addEventListener("click", function () {
   showHomePage();
 });
 
+viewRecipesToCookSection.addEventListener("click", (e) => {
+  viewRecipesToCookSection()
+})
+
+//Read: SAVE BUTTON event listener
+//1) This Function needs to be in a GLOBAL variable because the "Save Button" isn't built until AFTER the recipe cards are generated
+//2) Because this querySelector is built locally, this function listens to a "click" at ANY point in time to see if the event is ON the button that would potentially be built. 
 addEventListener("click", (e) => {
-  if (e.target.classList.contains("save-button")){console.log()}
+  if (e.target.classList.contains("save-button")) console.log("SAVE BUTTON INITIATED")
+  // saveRecipeToUser()
 });
 
+const recipesToCook = []
 
 
-//vvvv Change to Saved Recipes Page
-// ingredientButton.addEventListener("click", function () {
-//   showIngredientsPage();
-// });
+searchButton.addEventListener('click', searchByName)
 
-
-//CHANGED LINE FROM INGREDIENT TO DROPDOWNBUTTON
-// ingredientButton.addEventListener("click", function () {
-//   showIngredientsPage();
-// });
-//CHANGED LINE
-
-//vvvvv Function takes search result and creates cards
-searchButton.addEventListener('click', function(){
+function searchByName(){
   const searchName = searchInput.value;
   const searchResult = searchRecipeName(recipeData, searchName);
   filteredRecipeCards(searchResult);
   recipeHeader.innerHTML=`Search Results by: "${searchInput.value}"`
   searchInput.value = ''
-})
+}
 
-
-// QUERY SELECTOR FOR THE TAGS
-const tagLinks = document.querySelectorAll('.dropdown-content a');
-
-// EVENTLISTENER FOR ANY OF THE TAGS THAT ARE CLICKED 
-tagLinks.forEach(tag => {
-  tag.addEventListener('click', function() {
-    // STORE THE TEXT OF THE CLICKED TAG AS A STRING
-    const clickedTag = this.textContent;
-    // CONSOLE LOG THE TAG AS WELL AS THE DATA TYPE
+tagContainer.addEventListener('click', function (e){
+  console.log(e.target.closest("a"))
+  if(e.target.closest("a")){ 
+    const clickedTag = e.target.textContent;
     const searchResult = findRecipeTags(recipeData, clickedTag);
     filteredRecipeCards(searchResult);
-    recipeHeader.innerHTML=`Recipes By Tag: "${clickedTag}"`
-  });
+    recipeHeader.innerHTML=`Recipes By Tag: "${clickedTag}"`}
+})
 
-});
 
 function navigateToRecipePage() {
   homeSection.classList.add("hidden");
@@ -108,11 +98,11 @@ function navigateToRecipePage() {
 //vvv Change to Saved Recipes Page
 function showSavedRecipesPage() {
   console.log("SHOW INGREDIENTS PAGE FUNCTION INITITATED")
-  homeSection.classList.add("hidden");
-  allRecipesSection.classList.add("hidden");
-  ingredientsSection.classList.remove("hidden");
-  recipePage.classList.add("hidden");
-  savedRecipesSection.classList.add("hidden");
+  // homeSection.classList.add("hidden");
+  // allRecipesSection.classList.add("hidden");
+  // ingredientsSection.classList.remove("hidden");
+  // recipePage.classList.add("hidden");
+  // savedRecipesSection.classList.add("hidden");
 }
 
 function resetFilteredResultsPage() {
@@ -164,9 +154,13 @@ function populateAllRecipesPage() {
     title.className = "card-title";
     title.textContent = recipe.name;
 
+    const saveButton = document.createElement("button")
+    saveButton.className = "save-button"
+    saveButton.textContent = "SAVE TO RECIPE"
+
     card.appendChild(image);
     card.appendChild(title);
-    
+    card.appendChild(saveButton);
 
     card.addEventListener("click", () => {
       findRecipeById(recipe.id);
@@ -275,7 +269,6 @@ function showFullRecipe(selectedRecipe) {
   fullRecipe.appendChild(ingredientsTitle);
   fullRecipe.appendChild(ingredientsList);
   fullRecipe.appendChild(totalCostElement);
-
   recipePage.appendChild(fullRecipe);
 }
 
@@ -388,7 +381,11 @@ function saveRecipeToUser(user, recipe) {
 //   card.addEventListener('click', handleRecipeClick);
 // }); you can probably manipulate this all to work with a little heart image or something similar on the recipe card
 
-
+function getRandomUser(){
+  const index = getRandomInt(usersData.length)
+  const randomUser = usersData[index]
+  return randomUser
+}
 
 // this will handle the recipe click you'll just have to modify
 function handleRecipeClick(event) {
@@ -441,39 +438,3 @@ function displayUserRecipes(userName) {
     savedRecipePage.innerHTML = '<p>No recipes saved yet.</p>';
   }
 }
-// //MOST RECENT ADDITIONS FOR CREATING
-
-// //GENERATE TAGS AND NUMBER OF MATCHING RECIPE TAGS BASED ON THE TAGS ARRAY
-// function generateRecipeTags(tagsList) {
-//   tagsList.forEach(tag => {
-//     const filteredRecipes = findRecipeTags(recipeData, tag);
-//     const tagElement = document.createElement("div");
-//     tagElement.textContent = `${tag} (${filteredRecipes.length})`; // Include the count
-//     tagElement.className = "recipe-tag";
-//     tagElement.addEventListener("click", () => filterRecipesByTag(tag));
-//     recipeTagsSection.appendChild(tagElement);
-//   });
-// }
-
-// //FILTER THE RECIPES BY THEIR SPECIFIC TAG
-// function filterRecipesByTag(tag) {
-//   const filteredRecipes = findRecipeTags(recipeData, tag);
-//   navigateToSearchResultsPage();
-
-//   console.log("FILTERED RECIPES", filteredRecipes);
-// }
-
-// function navigateToSearchResultsPage() {
-//   homeSection.classList.add("hidden");
-//   allRecipesSection.classList.add("hidden");
-//   ingredientsSection.classList.add("hidden");
-//   recipePage.classList.add("hidden");
-//   savedRecipesSection.classList.add("hidden");
-//   searchResultsPage.classList.remove("hidden");
-// }
-
-
-// generateRecipeTags(tagsList);
-generateRecipeCards();
-populateAllRecipesPage();
-showFullRecipe()
