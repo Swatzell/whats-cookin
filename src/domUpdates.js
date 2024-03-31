@@ -33,6 +33,8 @@ function initialize(){
 
 addEventListener('load', initialize)
 
+viewRecipesToCookSection.addEventListener("click",showSavedRecipesPage)
+
 allRecipesSection.addEventListener("click", (e) => {
   findRecipeById(e);
   navigateToRecipePage();
