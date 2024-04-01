@@ -150,12 +150,12 @@ body {
 }
 
 /* Show the dropdown content when dropdown button is hovered */
-.dropdown:hover .dropdown-content {
+.dropdown:hover .dropdown-content{
   display: table-row;
 }
 
 /* Style the tags */
-.dropdown-content a {
+/* .dropdown-content a {
   display: column;
   padding: 5px 10px;
   text-decoration: none;
@@ -164,8 +164,7 @@ body {
 
 .dropdown-content a:hover {
   background-color: #f1f1f1;
-}
-
+} */
 
 
 .recipe-image {
