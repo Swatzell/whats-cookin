@@ -67,13 +67,15 @@ homeButton.addEventListener("click", function () {
 //   }
 // });
 
-recipePage.addEventListener('click',(event) => {
-  if (event.target.classList.contains('save-button')){
-    const savedRecipe = saveRecipeToUser(user, recipe);
-    displaySavedRecipe(savedRecipe);
+recipePage.addEventListener('click', (event) => {
+  if (event.target.classList.contains('save-button')) {
+     // Assuming the selected recipe is stored in a variable named `selectedRecipe`
+     // and the current user is stored in a variable named `currentUser`
+     // You might need to adjust this part based on how you're managing the selected recipe and current user
+     const savedRecipe = saveRecipeToUser(currentUser.id, selectedRecipe.id);
+     displayUserRecipes(savedRecipe); // Assuming you have a function to display the saved recipe
   }
-});
-
+ });
 searchButton.addEventListener('click', searchByName)
 
 function searchByName(){
@@ -237,7 +239,6 @@ function generateRecipeCards() {
       <div class="featured-recipe-box" id="${recipe.id}">
         <img class="card-image" src="${recipe.image}" alt="${recipe.name}">
         <h2 class="card-title">${recipe.name}</h2>
-        <button class="save-button">SAVE TO RECIPE</button>
       </div>
     `;
     featuredRecipesSection.innerHTML += cardHTML;
