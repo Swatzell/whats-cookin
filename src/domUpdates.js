@@ -74,17 +74,16 @@ savedRecipePage.addEventListener("click", (event) => {
   const clickedCard = event.target.closest(".featured-recipe-box");
   
   if (clickedCard) {
-    const recipeId = parseInt(clickedCard.id, 10); // Ensure the ID is parsed as an integer
+    const recipeId = parseInt(clickedCard.id, 10); 
     const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
     
     if (selectedRecipe) {
       showFullRecipe(selectedRecipe);
-      navigateToRecipePage(); // Optional: navigate to the recipe page
-    } else {
-      console.log("Selected recipe not found");
-    }
+      navigateToRecipePage(); 
+    } 
   }
 });
+
 
 searchButton.addEventListener('click', searchByName)
 
@@ -320,6 +319,7 @@ function displayUserRecipes(userName) {
             <div class="featured-recipe-box" id="${recipe.id}">
               <img class="card-image" src="${recipe.image}" alt="${recipe.name}">
               <h2 class="card-title">${recipe.name}</h2>
+              <button class="remove-button">REMOVE</button>
             </div>
           `;
           savedRecipePage.innerHTML += cardHTML;
@@ -328,3 +328,4 @@ function displayUserRecipes(userName) {
     }
 
 }
+
