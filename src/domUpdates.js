@@ -69,6 +69,23 @@ recipePage.addEventListener("click", (event) => {
   }
 });
 
+
+savedRecipePage.addEventListener("click", (event) => {
+  const clickedCard = event.target.closest(".featured-recipe-box");
+  
+  if (clickedCard) {
+    const recipeId = parseInt(clickedCard.id, 10); // Ensure the ID is parsed as an integer
+    const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
+    
+    if (selectedRecipe) {
+      showFullRecipe(selectedRecipe);
+      navigateToRecipePage(); // Optional: navigate to the recipe page
+    } else {
+      console.log("Selected recipe not found");
+    }
+  }
+});
+
 searchButton.addEventListener('click', searchByName)
 
 function searchByName(){
@@ -281,34 +298,6 @@ function filteredRecipeCards(recipeInput) {
     featuredRecipesSection.appendChild(card);
   }
 }
-// This will save recipes to the user and push it into the recipes to cook array
-// function saveRecipeToUser(user, recipe) {
-//   console.log("SAVE RECIPE TO USER INITIATED")
-//   const newRecipe = {
-//     id: recipe.id,
-//     image: recipe.image,
-//     name: recipe.name,
-//     ingredients: recipe.ingredients.map(ingredient => {
-//       const { id, quantity } = ingredient;
-//       const { amount, unit } = quantity;
-//       const ingredientData = ingredientsData.find(data => data.id === id);
-//       return {
-//         id,
-//         name: ingredientData ? ingredientData.name : 'Unknown',
-//         amount,
-//         unit
-//       };
-//     }),
-//     instructions: recipe.instructions.map(instruction => instruction.instruction),
-//     tags: recipe.tags
-//   };
-
-//   const isDuplicate = user.recipesToCook.some(savedRecipe => savedRecipe.id === newRecipe.id);
-
-//   if (!isDuplicate) {
-//     user.recipesToCook.push(newRecipe);
-//   }
-// }
 
 
 function getRandomUser(){
