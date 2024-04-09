@@ -193,7 +193,7 @@ function showFullRecipe(selectedRecipe) {
     <div class="full-recipe-view" id=${selectedRecipe.id}>
       <img class="recipe-image" src="${selectedRecipe.image}" alt="${selectedRecipe.name}">
       <h2 class="card-title">${selectedRecipe.name}</h2>
-      <button class="save-button">SAVE TO RECIPE</button>
+      <button class="save-button">SAVE FOR LATER</button>
       <h3 class="instructions-title">Instructions</h3>
       <ul class="recipe-instructions">
         ${selectedRecipe.instructions.map(instruction => `<li>${instruction.instruction}</li>`).join('')}
