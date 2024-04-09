@@ -105,22 +105,6 @@ function removeRecipeFromCook(userId, recipeId) {
     }
   }
 }
-savedRecipePage.addEventListener("click", (event) => {
-  if (event.target.classList.contains("remove-button")) {
-    const closestBox = event.target.closest(".remove-recipe");
-
-    if (closestBox) {
-      const recipeId = parseInt(closestBox.id, 10);
-      // Check if recipeId is NaN
-      if (isNaN(recipeId)) {
-        console.error("Invalid recipe ID:", closestBox.id);
-        return; // Exit the function if recipeId is not a valid number
-      }
-      removeRecipeFromCook(currentUser.id, recipeId);
-      displayUserRecipes(currentUser.name);
-    }
-  }
-});
 
 savedRecipePage.addEventListener("click", (event) => {
   const clickedCard = event.target.closest(".featured-recipe-box");
