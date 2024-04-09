@@ -360,6 +360,7 @@ function filteredRecipeCards(recipeInput) {
   }
 }
 
+
 function getRandomUser() {
   const index = getRandomInt(usersData.length);
   const randomUser = usersData[index];
