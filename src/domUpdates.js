@@ -57,25 +57,18 @@ homeButton.addEventListener("click", function () {
 
 
 
-// featuredRecipesSection.addEventListener("click", (event) => {
-//   if (event.target.classList.contains("save-button")) {
-//     const recipeId = parseInt(event.target.closest(".featured-recipe-box").id);
-//     const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
-//     if (selectedRecipe) {
-//       addRecipeToCook(currentUser.id, selectedRecipe.id);
-//     }
-//   }
-// });
-
-recipePage.addEventListener('click', (event) => {
-  if (event.target.classList.contains('save-button')) {
-     // Assuming the selected recipe is stored in a variable named `selectedRecipe`
-     // and the current user is stored in a variable named `currentUser`
-     // You might need to adjust this part based on how you're managing the selected recipe and current user
-     const savedRecipe = saveRecipeToUser(currentUser.id, selectedRecipe.id);
-     displayUserRecipes(savedRecipe); // Assuming you have a function to display the saved recipe
+recipePage.addEventListener("click", (event) => {
+  if (event.target.classList.contains("save-button")) {
+    const recipeId = parseInt(event.target.closest(".full-recipe-view").id);
+    const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
+    console.log(selectedRecipe)
+    if (selectedRecipe) {
+      addRecipeToCook(currentUser.id, selectedRecipe.id);
+      
+    }
   }
- });
+});
+
 searchButton.addEventListener('click', searchByName)
 
 function searchByName(){
@@ -197,7 +190,7 @@ function calculateRecipeCost(selectedRecipe, ingredientsData) {
 function showFullRecipe(selectedRecipe) {
   console.log("SHOW FULL RECIPE FUNCTION INITIATED");
   recipePage.innerHTML = `
-    <div class="full-recipe-view">
+    <div class="full-recipe-view" id=${selectedRecipe.id}>
       <img class="recipe-image" src="${selectedRecipe.image}" alt="${selectedRecipe.name}">
       <h2 class="card-title">${selectedRecipe.name}</h2>
       <button class="save-button">SAVE TO RECIPE</button>
@@ -247,12 +240,14 @@ function generateRecipeCards() {
 
 
 function addRecipeToCook(userId, recipeId) {
+  console.log("does this work")
   const user = usersData.find(user => user.id === userId);
   const recipe = recipeData.find(recipe => recipe.id === recipeId);
   
   if (user && recipe) {
     if (!user.recipesToCook.some(r => r.id === recipeId)) {
       user.recipesToCook.push(recipe);
+      console.log(user)
     }
   }
 }
@@ -287,33 +282,33 @@ function filteredRecipeCards(recipeInput) {
   }
 }
 // This will save recipes to the user and push it into the recipes to cook array
-function saveRecipeToUser(user, recipe) {
-  console.log("SAVE RECIPE TO USER INITIATED")
-  const newRecipe = {
-    id: recipe.id,
-    image: recipe.image,
-    name: recipe.name,
-    ingredients: recipe.ingredients.map(ingredient => {
-      const { id, quantity } = ingredient;
-      const { amount, unit } = quantity;
-      const ingredientData = ingredientsData.find(data => data.id === id);
-      return {
-        id,
-        name: ingredientData ? ingredientData.name : 'Unknown',
-        amount,
-        unit
-      };
-    }),
-    instructions: recipe.instructions.map(instruction => instruction.instruction),
-    tags: recipe.tags
-  };
+// function saveRecipeToUser(user, recipe) {
+//   console.log("SAVE RECIPE TO USER INITIATED")
+//   const newRecipe = {
+//     id: recipe.id,
+//     image: recipe.image,
+//     name: recipe.name,
+//     ingredients: recipe.ingredients.map(ingredient => {
+//       const { id, quantity } = ingredient;
+//       const { amount, unit } = quantity;
+//       const ingredientData = ingredientsData.find(data => data.id === id);
+//       return {
+//         id,
+//         name: ingredientData ? ingredientData.name : 'Unknown',
+//         amount,
+//         unit
+//       };
+//     }),
+//     instructions: recipe.instructions.map(instruction => instruction.instruction),
+//     tags: recipe.tags
+//   };
 
-  const isDuplicate = user.recipesToCook.some(savedRecipe => savedRecipe.id === newRecipe.id);
+//   const isDuplicate = user.recipesToCook.some(savedRecipe => savedRecipe.id === newRecipe.id);
 
-  if (!isDuplicate) {
-    user.recipesToCook.push(newRecipe);
-  }
-}
+//   if (!isDuplicate) {
+//     user.recipesToCook.push(newRecipe);
+//   }
+// }
 
 
 function getRandomUser(){
@@ -330,30 +325,17 @@ function displayUserRecipes(userName) {
     savedRecipePage.innerHTML = '';
     
     user.recipesToCook.forEach(recipe => {
-      const recipeElement = document.createElement('div');
-      recipeElement.classList.add('recipe-item');
-      
-      recipeElement.innerHTML = `
-        <img src="${recipe.image}" alt="${recipe.name}" class="recipe-image">
-        <h2>${recipe.name}</h2>
-        <h3>Ingredients:</h3>
-        <ul>
-          ${recipe.ingredients.map(ingredient => `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`).join('')}
-        </ul>
-        <h3>Instructions:</h3>
-        <ol>
-          ${recipe.instructions.map(instruction => `<li>${instruction}</li>`)}
-        </ol>
-        <h3>Tags:</h3>
-        <ul>
-          ${recipe.tags.map(tag => `<li>${tag}</li>`).join('')}
-        </ul>
-      `;
-      
-      savedRecipePage.appendChild(recipeElement);
-    });
-  } else {
-    savedRecipePage.innerHTML = '<p>No recipes saved yet.</p>';
-  }
-}
+        
+        
+          const cardHTML = `
+            <div class="featured-recipe-box" id="${recipe.id}">
+              <img class="card-image" src="${recipe.image}" alt="${recipe.name}">
+              <h2 class="card-title">${recipe.name}</h2>
+            </div>
+          `;
+          savedRecipePage.innerHTML += cardHTML;
+        
+      })
+    }
 
+}
