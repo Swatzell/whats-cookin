@@ -69,7 +69,7 @@ recipePage.addEventListener("click", (event) => {
 savedRecipePage.addEventListener("click", (event) => {
   if (event.target.classList.contains("remove-button")) {
     const closestBox = event.target.closest(".remove-recipe");
-
+    
     if (closestBox) {
       const recipeId = parseInt(closestBox.previousElementSibling.id, 10);
 
@@ -83,6 +83,8 @@ savedRecipePage.addEventListener("click", (event) => {
 
       removeRecipeFromCook(currentUser.id, recipeId);
       displayUserRecipes(currentUser.name);
+      console.log("REMOVE RECIPE FROM COOK FUNCTION INITITATED");
+      console.log("DISPLAY USER RECIPES FUNCTION INITITATED");
     }
   }
 });
@@ -317,7 +319,7 @@ function generateRecipeCards() {
 }
 
 function addRecipeToCook(userId, recipeId) {
-  console.log("does this work");
+  console.log("ADD RECIPE TO COOK FUNCTION INITIATED");
   const user = usersData.find((user) => user.id === userId);
   const recipe = recipeData.find((recipe) => recipe.id === recipeId);
 
