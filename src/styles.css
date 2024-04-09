@@ -205,6 +205,11 @@ body {
   border-radius: 10px;
 }
 
+.featured-recipe-box:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7); /* Add slight shadow on hover */
+  cursor: pointer;
+}
+
 .save-button {
   position: relative;
   bottom: -20px; /* Adjust this value to push the button up */
