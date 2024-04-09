@@ -55,47 +55,34 @@ homeButton.addEventListener("click", function () {
   showHomePage();
 });
 
-//TO DO: This function will initiate to present all saved recipes
-// viewRecipesToCookSection.addEventListener("click", (e) => {
-//   viewRecipesToCookSection()
-// })
 
 
-//Read: SAVE BUTTON event listener
-//1) This Function needs to be in a GLOBAL variable because the "Save Button" isn't built until AFTER the recipe cards are generated
-// //2) Because this querySelector is built locally, this function listens to a "click" at ANY point in time to see if the event is ON the button that would potentially be built. 
-// saveRecipeButton.addEventListener("click", (e) => {
-//   if (e.target.classList.contains("save-button")) console.log("SAVE BUTTON INITIATED")
-//   saveRecipeToUser(user, recipe)
-// });
-
-// saveRecipeButton.addEventListener("click", () => {
-//   if (recipe && currentUser) {
-//     addRecipeToCookList(currentUser, recipe);
-//   }
-// });
-
-featuredRecipesSection.addEventListener("click", (event) => {
+recipePage.addEventListener("click", (event) => {
   if (event.target.classList.contains("save-button")) {
-    const recipeId = parseInt(event.target.closest(".featured-recipe-box").id);
+    const recipeId = parseInt(event.target.closest(".full-recipe-view").id);
     const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
+    console.log(selectedRecipe)
     if (selectedRecipe) {
       addRecipeToCook(currentUser.id, selectedRecipe.id);
+      
     }
   }
 });
 
-// document.addEventListener("click", function(event) {
-//   if (event.target && event.target.classList.contains("save-button")) {
-//     const recipeId = parseInt(event.target.closest(".full-recipe-view").id);
-//     const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
-//     if (selectedRecipe && currentUser) {
-//       addRecipeToCook(currentUser.id, selectedRecipe.id);
-//       // saveRecipeToUser(user, recipe)
-//     }
-//   }
-// });
 
+savedRecipePage.addEventListener("click", (event) => {
+  const clickedCard = event.target.closest(".featured-recipe-box");
+  
+  if (clickedCard) {
+    const recipeId = parseInt(clickedCard.id, 10); 
+    const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
+    
+    if (selectedRecipe) {
+      showFullRecipe(selectedRecipe);
+      navigateToRecipePage(); 
+    } 
+  }
+});
 
 
 searchButton.addEventListener('click', searchByName)
@@ -172,7 +159,6 @@ function populateAllRecipesPage() {
       <div class="featured-recipe-box" id="${recipe.id}">
         <img class="card-image" src="${recipe.image}" alt="${recipe.name}">
         <h2 class="card-title">${recipe.name}</h2>
-        <button class="save-button">SAVE TO RECIPE</button>
       </div>
     `;
     allRecipesSection.innerHTML += cardHTML;
@@ -216,70 +202,27 @@ function calculateRecipeCost(selectedRecipe, ingredientsData) {
   return totalCost / 100;
 }
 
+
 function showFullRecipe(selectedRecipe) {
-  console.log("SHOW FULL RECIPE FUNCTION INITIATED")
-  recipePage.innerHTML = "";
-
-  const fullRecipe = document.createElement("div");
-  fullRecipe.className = "full-recipe-view";
-
-  const image = document.createElement("img");
-  image.className = "recipe-image";
-  image.src = selectedRecipe.image;
-  image.alt = selectedRecipe.name;
-  console.log("Selected Recipe: ", selectedRecipe)
-
-  const title = document.createElement("h2");
-  title.className = "card-title";
-  title.textContent = selectedRecipe.name;
-
-  const saveButton = document.createElement("button")
-  saveButton.className = "save-button"
-  saveButton.textContent = "SAVE TO RECIPE"
-  
-  const instructionsTitle = document.createElement("h3");
-  instructionsTitle.className = "instructions-title";
-  instructionsTitle.textContent = "Instructions";
-  
-  const instructionsList = document.createElement("ul");
-  instructionsList.className = "recipe-instructions";
-  selectedRecipe.instructions.forEach((instruction) => {
-    const listItem = document.createElement("li");
-    listItem.textContent = instruction.instruction;
-    instructionsList.appendChild(listItem);
-  });
-
-  //Self note: These are blocks of HTML produced from the function
-  const { ingredientsTitle, ingredientsList } = displayIngredients(selectedRecipe, ingredientsData);
-  const totalCost = calculateRecipeCost(selectedRecipe, ingredientsData);
-  const totalCostElement = document.createElement("p");
-  totalCostElement.className = "recipe-total-cost";
-  totalCostElement.textContent = `Total Cost: $${totalCost.toFixed(2)}`;
-
-  const tagsTitle = document.createElement("h3");
-  tagsTitle.className = "tags-title";
-  tagsTitle.textContent = "Tags";
-
-  const tagsList = document.createElement("ul");
-  tagsList.className = "recipe-tags";
-  selectedRecipe.tags.forEach((tag) => {
-    const listItem = document.createElement("li");
-    listItem.textContent = tag;
-    tagsList.appendChild(listItem);
-  });
-
-  
-  fullRecipe.appendChild(image);
-  fullRecipe.appendChild(title);
-  fullRecipe.appendChild(saveButton);
-  fullRecipe.appendChild(instructionsTitle);
-  fullRecipe.appendChild(instructionsList);
-  fullRecipe.appendChild(tagsTitle);
-  fullRecipe.appendChild(tagsList);
-  fullRecipe.appendChild(ingredientsTitle);
-  fullRecipe.appendChild(ingredientsList);
-  fullRecipe.appendChild(totalCostElement);
-  recipePage.appendChild(fullRecipe);
+  console.log("SHOW FULL RECIPE FUNCTION INITIATED");
+  recipePage.innerHTML = `
+    <div class="full-recipe-view" id=${selectedRecipe.id}>
+      <img class="recipe-image" src="${selectedRecipe.image}" alt="${selectedRecipe.name}">
+      <h2 class="card-title">${selectedRecipe.name}</h2>
+      <button class="save-button">SAVE FOR LATER</button>
+      <h3 class="instructions-title">Instructions</h3>
+      <ul class="recipe-instructions">
+        ${selectedRecipe.instructions.map(instruction => `<li>${instruction.instruction}</li>`).join('')}
+      </ul>
+      ${displayIngredients(selectedRecipe, ingredientsData).ingredientsTitle.outerHTML}
+      ${displayIngredients(selectedRecipe, ingredientsData).ingredientsList.outerHTML}
+      <p class="recipe-total-cost">Total Cost: $${calculateRecipeCost(selectedRecipe, ingredientsData).toFixed(2)}</p>
+      <h3 class="tags-title">Tags</h3>
+      <ul class="recipe-tags">
+        ${selectedRecipe.tags.map(tag => `<li>${tag}</li>`).join('')}
+      </ul>
+    </div>
+  `;
 }
 
 //vvvvv This only works on the main 
@@ -294,38 +237,6 @@ function findRecipeById(event) {
   } 
 }
 
-// function generateRecipeCards() {
-//   console.log("GENERATE RECIPE CARDS INITIATED")
-//   featuredRecipesSection.innerHTML = "";
-
-//   // Display only the first 3 recipes
-//   for (let i = 0; i < 3 && i < recipeData.length; i++) {
-//     const recipe = recipeData[i];
-
-//     const card = document.createElement("div");
-//     card.className = "featured-recipe-box";
-//     card.id = recipe.id;
-
-//     const image = document.createElement("img");
-//     image.className = "card-image";
-//     image.src = recipe.image;
-//     image.alt = recipe.name;
-
-//     const title = document.createElement("h2");
-//     title.className = "card-title";
-//     title.textContent = recipe.name;
-
-//     const saveButton = document.createElement("button")
-//     saveButton.className = "save-button"
-//     saveButton.textContent = "SAVE TO RECIPE"
-
-//     card.appendChild(image);
-//     card.appendChild(title);
-//     card.appendChild(saveButton);
-
-//     featuredRecipesSection.appendChild(card);
-//   }
-// }
 
 function generateRecipeCards() {
   featuredRecipesSection.innerHTML = "";  // Clear the existing content
@@ -337,48 +248,22 @@ function generateRecipeCards() {
       <div class="featured-recipe-box" id="${recipe.id}">
         <img class="card-image" src="${recipe.image}" alt="${recipe.name}">
         <h2 class="card-title">${recipe.name}</h2>
-        <button class="save-button">SAVE TO RECIPE</button>
       </div>
     `;
     featuredRecipesSection.innerHTML += cardHTML;
   }
 }
 
-// function generateRecipeCards() {
-//   featuredRecipesSection.innerHTML = "";  // Clear the existing content
-  
-//   recipeData.forEach((recipe) => {
-//     const cardHTML = `
-//       <div class="featured-recipe-box" id="${recipe.id}">
-//         <img class="card-image" src="${recipe.image}" alt="${recipe.name}">
-//         <h2 class="card-title">${recipe.name}</h2>
-//         <button class="save-button">SAVE TO RECIPE</button>
-//       </div>
-//     `;
-//     featuredRecipesSection.innerHTML += cardHTML;
-//   });
-// }
-
- 
-//   const saveButtons = document.querySelectorAll('.save-button');
-//   saveButtons.forEach((button) => {
-//     button.addEventListener('click', function(event) {
-//       const recipeId = parseInt(event.target.closest(".featured-recipe-box").id);
-//       const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
-//       if (selectedRecipe && currentUser) {
-//         addRecipeToCook(currentUser.id, selectedRecipe.id);
-//       }
-//     });
-//   });
-
 
 function addRecipeToCook(userId, recipeId) {
+  console.log("does this work")
   const user = usersData.find(user => user.id === userId);
   const recipe = recipeData.find(recipe => recipe.id === recipeId);
   
   if (user && recipe) {
     if (!user.recipesToCook.some(r => r.id === recipeId)) {
       user.recipesToCook.push(recipe);
+      console.log(user)
     }
   }
 }
@@ -412,34 +297,6 @@ function filteredRecipeCards(recipeInput) {
     featuredRecipesSection.appendChild(card);
   }
 }
-// This will save recipes to the user and push it into the recipes to cook array
-function saveRecipeToUser(user, recipe) {
-  console.log("SAVE RECIPE TO USER INITIATED")
-  const newRecipe = {
-    id: recipe.id,
-    image: recipe.image,
-    name: recipe.name,
-    ingredients: recipe.ingredients.map(ingredient => {
-      const { id, quantity } = ingredient;
-      const { amount, unit } = quantity;
-      const ingredientData = ingredientsData.find(data => data.id === id);
-      return {
-        id,
-        name: ingredientData ? ingredientData.name : 'Unknown',
-        amount,
-        unit
-      };
-    }),
-    instructions: recipe.instructions.map(instruction => instruction.instruction),
-    tags: recipe.tags
-  };
-
-  const isDuplicate = user.recipesToCook.some(savedRecipe => savedRecipe.id === newRecipe.id);
-
-  if (!isDuplicate) {
-    user.recipesToCook.push(newRecipe);
-  }
-}
 
 
 function getRandomUser(){
@@ -456,31 +313,19 @@ function displayUserRecipes(userName) {
     savedRecipePage.innerHTML = '';
     
     user.recipesToCook.forEach(recipe => {
-      const recipeElement = document.createElement('div');
-      recipeElement.classList.add('recipe-item');
-      
-      recipeElement.innerHTML = `
-        <img src="${recipe.image}" alt="${recipe.name}" class="recipe-image">
-        <h2>${recipe.name}</h2>
-        <h3>Ingredients:</h3>
-        <ul>
-          ${recipe.ingredients.map(ingredient => `<li>${ingredient.amount} ${ingredient.unit} ${ingredient.name}</li>`).join('')}
-        </ul>
-        <h3>Instructions:</h3>
-        <ol>
-          ${recipe.instructions.map(instruction => `<li>${instruction}</li>`).join('')}
-        </ol>
-        <h3>Tags:</h3>
-        <ul>
-          ${recipe.tags.map(tag => `<li>${tag}</li>`).join('')}
-        </ul>
-      `;
-      
-      savedRecipePage.appendChild(recipeElement);
-    });
-  } else {
-    savedRecipePage.innerHTML = '<p>No recipes saved yet.</p>';
-  }
+        
+        
+          const cardHTML = `
+            <div class="featured-recipe-box" id="${recipe.id}">
+              <img class="card-image" src="${recipe.image}" alt="${recipe.name}">
+              <h2 class="card-title">${recipe.name}</h2>
+              <button class="remove-button">REMOVE</button>
+            </div>
+          `;
+          savedRecipePage.innerHTML += cardHTML;
+        
+      })
+    }
+
 }
-// displayUserRecipes(userName)
-// saveRecipeToUser(user, recipe)
+
