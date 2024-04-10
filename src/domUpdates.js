@@ -1,10 +1,8 @@
-import recipeData from "./data/recipes";
-import { searchRecipeName, findRecipeTags } from "./recipes";
-import ingredientsData from "./data/ingredients";
-import usersData from "./data/users";
-import { getRandomInt } from "./random";
 
-//NEW QUERYSELECTORS
+import { searchRecipeName, findRecipeTags } from "./recipes";
+import { getRandomInt } from "./random";
+import { fetchUsers, fetchIngredients, fetchRecipes } from './apiCalls.js';
+
 const homeSection = document.querySelector(".main-page");
 const recipePage = document.querySelector(".recipe-page");
 const featuredRecipesSection = document.querySelector(".featured-recipes");
@@ -22,17 +20,33 @@ const tagContainer = document.querySelector("#tagContainer");
 const saveRecipeButton = document.querySelector(".save-button");
 
 let currentUser;
+let users = [];
+let ingredients = [];
+let recipes = [];
 
 function initialize() {
-  generateRecipeCards();
-  populateAllRecipesPage();
-  // showFullRecipe();
-  // displayUserRecipes(userName)
-  currentUser = getRandomUser();
-  console.log("Current user: ", currentUser);
+  Promise.all([fetchUsers(), fetchIngredients(), fetchRecipes()])
+  
+    .then(([fetchedUsers, fetchedIngredients, fetchedRecipes]) => {
+      
+      users = fetchedUsers.users;
+      ingredients = fetchedIngredients.ingredients;
+      recipes = fetchedRecipes.recipes;
+      // console.log(users.users)
+      currentUser = getRandomUser(users);
+      populateAllRecipesPage(recipes);
+      generateRecipeCards(recipes);
+      displayIngredients(recipes[0],ingredients);
+      displayUserRecipes(users);
+    })
+    .catch(error => {
+      console.error("Error fetching data:", error);
+    });
 }
 
-addEventListener("load", initialize);
+addEventListener("load", function (){
+  setTimeout(() => {initialize()}, 1500);
+});
 
 viewRecipesToCookSection.addEventListener("click", showSavedRecipesPage);
 
@@ -58,7 +72,7 @@ homeButton.addEventListener("click", function () {
 recipePage.addEventListener("click", (event) => {
   if (event.target.classList.contains("save-button")) {
     const recipeId = parseInt(event.target.closest(".full-recipe-view").id);
-    const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
+    const selectedRecipe = recipes.find((recipe) => recipe.id === recipeId);
     console.log(selectedRecipe);
     if (selectedRecipe) {
       addRecipeToCook(currentUser.id, selectedRecipe.id);
@@ -90,7 +104,7 @@ savedRecipePage.addEventListener("click", (event) => {
 });
 
 function removeRecipeFromCook(userId, recipeId) {
-  const user = usersData.find((user) => user.id === userId);
+  const user = users.find((user) => user.id === userId);
 
   if (user) {
     user.recipesToCook = user.recipesToCook.filter(
@@ -113,7 +127,7 @@ savedRecipePage.addEventListener("click", (event) => {
 
   if (clickedCard) {
     const recipeId = parseInt(clickedCard.id, 10);
-    const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
+    const selectedRecipe = recipes.find((recipe) => recipe.id === recipeId);
 
     if (selectedRecipe) {
       showFullRecipe(selectedRecipe);
@@ -126,7 +140,7 @@ searchButton.addEventListener("click", searchByName);
 
 function searchByName() {
   const searchName = searchInput.value;
-  const searchResult = searchRecipeName(recipeData, searchName);
+  const searchResult = searchRecipeName(recipes, searchName);
   filteredRecipeCards(searchResult);
   recipeHeader.innerHTML = `Search Results by: "${searchInput.value}"`;
   searchInput.value = "";
@@ -136,7 +150,7 @@ tagContainer.addEventListener("click", function (e) {
   console.log(e.target.closest("a"));
   if (e.target.closest("a")) {
     const clickedTag = e.target.textContent;
-    const searchResult = findRecipeTags(recipeData, clickedTag);
+    const searchResult = findRecipeTags(recipes, clickedTag);
     filteredRecipeCards(searchResult);
     recipeHeader.innerHTML = `Recipes By Tag: "${clickedTag}"`;
   }
@@ -150,7 +164,7 @@ function navigateToRecipePage() {
 }
 //vvv Change to Saved Recipes Page
 function showSavedRecipesPage() {
-  console.log("SHOW INGREDIENTS PAGE FUNCTION INITITATED");
+  console.log("SAVED RECIPES PAGE FUNCTION INITITATED");
   homeSection.classList.add("hidden");
   allRecipesSection.classList.add("hidden");
   recipePage.classList.add("hidden");
@@ -182,15 +196,31 @@ function showHomePage() {
   recipePage.classList.add("hidden");
   savedRecipePage.classList.add("hidden");
   recipeHeader.innerText = "This weeks featured recipes:";
-  generateRecipeCards();
-  populateAllRecipesPage();
-  showFullRecipe();
+  generateRecipeCards(recipes);
+  populateAllRecipesPage(recipes);
+  // showFullRecipe(recipes);
 }
 
-function populateAllRecipesPage() {
-  allRecipesSection.innerHTML = ""; 
 
-  recipeData.forEach((recipe) => {
+
+
+
+function populateAllRecipesPage(data) {
+  let recipes;
+
+  // Check if data is an object with a 'recipes' property
+  if (Array.isArray(data.recipes)) {
+    recipes = data.recipes;
+  } else if (Array.isArray(data)) {
+    recipes = data;
+  } else {
+    console.error("Invalid recipes data:", data);
+    return;
+  }
+
+  allRecipesSection.innerHTML = "";
+
+  recipes.forEach((recipe) => {
     const cardHTML = `
       <div class="featured-recipe-box" id="${recipe.id}">
         <img class="card-image" src="${recipe.image}" alt="${recipe.name}">
@@ -201,7 +231,7 @@ function populateAllRecipesPage() {
   });
 }
 
-function displayIngredients(selectedRecipe, ingredientsData) {
+function displayIngredients(selectedRecipe, ingredients) {
   console.log("DISPLAY INGREDIENTS FUNCTION INITIATED");
   const ingredientsTitle = document.createElement("h3");
   ingredientsTitle.className = "section-title";
@@ -211,7 +241,7 @@ function displayIngredients(selectedRecipe, ingredientsData) {
   ingredientsList.className = "recipe-ingredients";
 
   selectedRecipe.ingredients.forEach((ingredientItem) => {
-    const ingredient = ingredientsData.find(
+    const ingredient = ingredients.find(
       (data) => data.id === ingredientItem.id
     );
 
@@ -222,11 +252,13 @@ function displayIngredients(selectedRecipe, ingredientsData) {
   return { ingredientsTitle, ingredientsList };
 }
 
-function calculateRecipeCost(selectedRecipe, ingredientsData) {
+
+
+function calculateRecipeCost(selectedRecipe, ingredients) {
   let totalCost = 0;
 
   selectedRecipe.ingredients.forEach((ingredientItem) => {
-    const ingredientData = ingredientsData.find(
+    const ingredientData = ingredients.find(
       (data) => data.id === ingredientItem.id
     );
 
@@ -240,7 +272,7 @@ function calculateRecipeCost(selectedRecipe, ingredientsData) {
 }
 
 function showFullRecipe(selectedRecipe) {
-  console.log("SHOW FULL RECIPE FUNCTION INITIATED");
+  console.log(selectedRecipe);
   recipePage.innerHTML = `
     <div class="full-recipe-view" id=${selectedRecipe.id}>
       <img class="recipe-image" src="${selectedRecipe.image}" alt="${
@@ -255,16 +287,16 @@ function showFullRecipe(selectedRecipe) {
           .join("")}
       </ul>
       ${
-        displayIngredients(selectedRecipe, ingredientsData).ingredientsTitle
+        displayIngredients(selectedRecipe, ingredients).ingredientsTitle
           .outerHTML
       }
       ${
-        displayIngredients(selectedRecipe, ingredientsData).ingredientsList
+        displayIngredients(selectedRecipe, ingredients).ingredientsList
           .outerHTML
       }
       <p class="recipe-total-cost">Total Cost: $${calculateRecipeCost(
         selectedRecipe,
-        ingredientsData
+        ingredients
       ).toFixed(2)}</p>
       <h3 class="tags-title">Tags</h3>
       <ul class="recipe-tags">
@@ -278,7 +310,7 @@ function showFullRecipe(selectedRecipe) {
 function findRecipeById(event) {
   console.log("FIND RECIPE BY ID INITIATED");
   const recipeId = +event.target.closest(".featured-recipe-box").id;
-  const selectedRecipe = recipeData.find((recipe) => recipe.id === recipeId);
+  const selectedRecipe = recipes.find((recipe) => recipe.id === recipeId);
 
   if (selectedRecipe) {
     console.log("selected recipe: ", selectedRecipe);
@@ -286,11 +318,11 @@ function findRecipeById(event) {
   }
 }
 
-function generateRecipeCards() {
+function generateRecipeCards(recipes) {
   featuredRecipesSection.innerHTML = ""; 
 
-  for (let i = 0; i < 3 && i < recipeData.length; i++) {
-    const recipe = recipeData[i];
+  for (let i = 0; i < 3 && i < recipes.length; i++) {
+    const recipe = recipes[i];
 
     const cardHTML = `
       <div class="featured-recipe-box" id="${recipe.id}">
@@ -303,9 +335,10 @@ function generateRecipeCards() {
 }
 
 function addRecipeToCook(userId, recipeId) {
-  console.log("ADD RECIPE TO COOK FUNCTION INITIATED");
-  const user = usersData.find((user) => user.id === userId);
-  const recipe = recipeData.find((recipe) => recipe.id === recipeId);
+
+  console.log("does this work");
+  const user = users.find((user) => user.id === userId);
+  const recipe = recipes.find((recipe) => recipe.id === recipeId);
 
   if (user && recipe) {
     if (!user.recipesToCook.some((r) => r.id === recipeId)) {
@@ -344,15 +377,14 @@ function filteredRecipeCards(recipeInput) {
   }
 }
 
-
-function getRandomUser() {
-  const index = getRandomInt(usersData.length);
-  const randomUser = usersData[index];
+function getRandomUser(users) {
+  const index = getRandomInt(users.length);
+  const randomUser = users[index];
   return randomUser;
 }
 
 function displayUserRecipes(userName) {
-  const user = usersData.find(user => user.name === userName);
+  const user = users.find(user => user.name === userName);
 
   if (user) {
     savedRecipePage.innerHTML = '';
@@ -372,6 +404,5 @@ function displayUserRecipes(userName) {
 
       })
     }
-
-}
+  }
 
