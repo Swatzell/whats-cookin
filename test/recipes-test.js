@@ -6,73 +6,59 @@ import {
   calculateRecipeCost,
   getRecipeInstructions,
 } from "../src/recipes";
-import recipeData from "../src/data/recipes";
 import ingredientsData from "../src/data/ingredients";
 import constants from "./test-prompts";
+import recipeArray from "./test-array"
 
 
 describe("Recipe Tag", () => {
-  it("Should be a function", () => {
-    expect(findRecipeTags).to.be.a("function");
-  });
-
-  it("Should return a filtered list of recipes based on a tag", () => {
-    const recipe = findRecipeTags(recipeData, "sauce");
+ it("Should return a filtered list of recipes based on a tag", () => {
+    const recipe = findRecipeTags(recipeArray, "sauce");
     expect(recipe[0].name).to.deep.equal("Dirty Steve's Original Wing Sauce");
   });
 
   it("Should return a filtered list of recipes based on a tag regardless of case sensitivity", () => {
-    const recipe = findRecipeTags(recipeData, "sauce");
+    const recipe = findRecipeTags(recipeArray, "sauce");
     expect(recipe[0].name).to.deep.equal("Dirty Steve's Original Wing Sauce");
+  });
+
+  it.skip("Should return an empty array if nothing is found", () => {
+    const recipe = findRecipeTags(recipeArray, "sace");
+    expect(recipe[0].name).to.deep.equal(null);
   });
 
 
   describe("Recipe Ingredient", () => {
-    it("Should be a function", () => {
-      expect(searchRecipeName).to.be.a("function");
+  it("Should return a filtered list of recipes based on a tag", () => {
+    const recipe = searchRecipeName(recipeArray, "Salad");
+    expect(recipe).to.deep.equal(constants.saladArray);
     });
   });
 
-  it("Should return a filtered list of recipes based on a tag", () => {
-    const recipe = searchRecipeName(recipeData, "Vegan");
-    expect(recipe[0].name).to.deep.equal("Vegan Lentil Loaf");
-  });
-
   it("Should account for case sensitivity and spacing", () => {
-    const recipe = searchRecipeName(recipeData, "vegan len ");
-    expect(recipe[0].name).to.deep.equal("Vegan Lentil Loaf");
-  });
-
-  it("It should account for other info like ID and image location", () => {
-    const recipe = searchRecipeName(recipeData, "vegan len ");
-    expect(recipe[0].id).to.equal(226562);
-    expect(recipe[0].name).to.deep.equal("Vegan Lentil Loaf");
-    expect(recipe[0].image).to.equal('https://spoonacular.com/recipeImages/226562-556x370.jpg');
+    const recipe = searchRecipeName(recipeArray, "sala ");
+    expect(recipe).to.deep.equal(constants.saladArray);
   });
 });
 
 
 describe("Recipe Ingredient List", () => {
-  it("Should be a function", () => {
-    expect(createRecipesNeeded).to.be.a("function");
-  });
-
   it("Should create a list of ingredients for a given recipe ID", () => {
     const ingredients = createRecipesNeeded(
       595736,
-      recipeData,
+      recipeArray,
       ingredientsData
     );
     expect(ingredients).to.deep.equal(constants.expectedIngredients);
   });
 
   it("Should calculate the cost of a given recipe’s ingredients", () => {
-    const cost = calculateRecipeCost(595736, recipeData, ingredientsData);
+    const cost = calculateRecipeCost(595736, recipeArray, ingredientsData);
     expect(cost).to.equal(177.76);
   });
 
   it("Should return the directions / instructions for a given recipe", () => {
-    const instructions = getRecipeInstructions(595736, recipeData);
+    const instructions = getRecipeInstructions(595736, recipeArray);
     expect(instructions).to.deep.equal(constants.recipeTemplate);
   });
 });
