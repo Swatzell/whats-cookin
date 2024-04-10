@@ -136,8 +136,9 @@ body {
   color: black;
   padding: 14px 16px;
   background-color: inherit;
-  margin-left: 100px;
+  margin-left: 40px;
   cursor: pointer;
+  width: 100px;
 }
 
 .dropbtn:hover {
@@ -147,24 +148,37 @@ body {
 /* Hide the dropdown content by default */
 .dropdown-content {
   display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  /* display: flex;
+  flex-wrap: wrap; */
+  column-count: 2;
 }
 
 /* Show the dropdown content when dropdown button is hovered */
 .dropdown:hover .dropdown-content{
-  display: table-row;
+  display: flex;
+  flex-direction: column;
+  align-items:flex-start;
+  margin-left: 40px;
 }
 
-/* Style the tags */
-/* .dropdown-content a {
-  display: column;
-  padding: 5px 10px;
+ .dropdown-content a {
+  /* display: flex; */
+  padding: 2px 2px;
   text-decoration: none;
   color: black;
+  box-sizing: border-box; 
+  flex: 0 0 33.33%;
+  margin-right: 40px;
 }
 
 .dropdown-content a:hover {
-  background-color: #f1f1f1;
-} */
+  background-color: grey;
+}
 
 
 .recipe-image {
@@ -189,6 +203,11 @@ body {
   margin-right: 70px;
   margin-top: 80px;
   border-radius: 10px;
+}
+
+.featured-recipe-box:hover {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7); /* Add slight shadow on hover */
+  cursor: pointer;
 }
 
 .save-button {
