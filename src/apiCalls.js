@@ -14,16 +14,32 @@ export function fetchUsers() {
       .then(response => response.json());
   }
 
-  export function addRecipeToUserCook(userId, recipeId) {
+  
+  export function saveRecipeToServer(userId, recipeId) {
+    const requestBody = {
+      userID: userId,
+      recipeID: recipeId,
+    };
+  
+    console.log("Sending request:", requestBody); // Log the request body
+  
     return fetch("http://localhost:3001/api/v1/usersRecipes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        userID: userId,
-        recipeID: recipeId,
-      }),
+      body: JSON.stringify(requestBody),
     })
-    .then(response => response.json());
+    .then(response => {
+      console.log("Received response:", response); // Log the response
+      return response.json();
+    })
+    .then(data => {
+      console.log("Received data:", data); // Log the parsed JSON data
+      return data;
+    })
+    .catch(error => {
+      console.error("Error:", error); // Log any errors
+      throw error;
+    });
   }

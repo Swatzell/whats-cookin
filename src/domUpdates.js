@@ -1,7 +1,7 @@
 
 import { searchRecipeName, findRecipeTags } from "./recipes";
 import { getRandomInt } from "./random";
-import { fetchUsers, fetchIngredients, fetchRecipes } from './apiCalls.js';
+import { fetchUsers, fetchIngredients, fetchRecipes, saveRecipeToServer } from './apiCalls.js';
 
 const homeSection = document.querySelector(".main-page");
 const recipePage = document.querySelector(".recipe-page");
@@ -68,13 +68,24 @@ homeButton.addEventListener("click", function () {
   showHomePage();
 });
 
+
+
 recipePage.addEventListener("click", (event) => {
   if (event.target.classList.contains("save-button")) {
     const recipeId = parseInt(event.target.closest(".full-recipe-view").id);
     const selectedRecipe = recipes.find((recipe) => recipe.id === recipeId);
-    console.log(selectedRecipe);
+    console.log("Selected Recipe:", selectedRecipe);
     if (selectedRecipe) {
+      console.log("Adding recipe to cook list...");
       addRecipeToCook(currentUser.id, selectedRecipe.id);
+      console.log("Adding recipe to user's cook list..."); // Log before calling addRecipeToUserCook
+      saveRecipeToServer(currentUser.id, selectedRecipe.id)
+        .then(data => {
+          console.log("Recipe added to user's cook list:", data); // Log after successful addition
+        })
+        .catch(error => {
+          console.error("Error adding recipe to user's cook list:", error); // Log any errors
+        });
     }
   }
 });
