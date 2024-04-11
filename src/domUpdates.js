@@ -352,7 +352,9 @@ function addRecipeToCook(userId, recipeId) {
 function filteredRecipeCards(recipeInput) {
   console.log("FILTERED RECIPE CARDS INITIATED");
   resetFilteredResultsPage();
-
+  if (recipeInput === "No Results Found"){
+    featuredRecipesSection.innerHTML=`${recipeInput}`
+  } else 
   // Display only the first 3 recipes
   for (let i = 0; i < recipeInput.length; i++) {
     const recipe = recipeInput[i];

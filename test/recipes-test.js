@@ -22,12 +22,6 @@ describe("Recipe Tag", () => {
     expect(recipe[0].name).to.deep.equal("Dirty Steve's Original Wing Sauce");
   });
 
-  it.skip("Should return an empty array if nothing is found", () => {
-    const recipe = findRecipeTags(recipeArray, "sace");
-    expect(recipe[0].name).to.deep.equal(null);
-  });
-
-
   describe("Recipe Ingredient", () => {
   it("Should return a filtered list of recipes based on a tag", () => {
     const recipe = searchRecipeName(recipeArray, "Salad");
@@ -38,6 +32,11 @@ describe("Recipe Tag", () => {
   it("Should account for case sensitivity and spacing", () => {
     const recipe = searchRecipeName(recipeArray, "sala ");
     expect(recipe).to.deep.equal(constants.saladArray);
+  });
+
+  it("Should communicate to a user if the search provides no results", () => {
+    const recipe = searchRecipeName(recipeArray, "Gyro");
+    expect(recipe).to.equal("No Results Found");
   });
 });
 

@@ -11,6 +11,10 @@ export const findRecipeTags = (recipeData, tag) => {
 export const searchRecipeName = (recipeData, ingredient) => {
   let recipeInfo = recipeData
       .filter((recipe) => recipe.name.toLowerCase().includes(ingredient.trim().toLowerCase()));
+      if (recipeInfo.length === 0){
+        const returnMessage =  "No Results Found"
+        return returnMessage
+      } else 
     return recipeInfo;
 };
 
