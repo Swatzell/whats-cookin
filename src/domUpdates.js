@@ -27,8 +27,7 @@ let recipes = [];
 function initialize() {
   Promise.all([fetchUsers(), fetchIngredients(), fetchRecipes()])
   
-    .then(([fetchedUsers, fetchedIngredients, fetchedRecipes]) => {
-      
+  .then(([fetchedUsers, fetchedIngredients, fetchedRecipes]) => {
       users = fetchedUsers.users;
       ingredients = fetchedIngredients.ingredients;
       recipes = fetchedRecipes.recipes;
