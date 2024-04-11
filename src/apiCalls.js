@@ -13,3 +13,17 @@ export function fetchUsers() {
     return fetch("http://localhost:3001/api/v1/recipes")
       .then(response => response.json());
   }
+
+  export function addRecipeToUserCook(userId, recipeId) {
+    return fetch("http://localhost:3001/api/v1/usersRecipes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userID: userId,
+        recipeID: recipeId,
+      }),
+    })
+    .then(response => response.json());
+  }
