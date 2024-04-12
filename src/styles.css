@@ -152,7 +152,8 @@ h2.card-title {
 
 /* CSS TO MATCH THE DROPDOWN TO THE REST OF THE TOPNAV */
 
-.dropbtn {
+.dropbtn,
+.saved-dropbtn {
   font-size: 17px;
   border: none;
   outline: none;
@@ -170,7 +171,8 @@ h2.card-title {
 }
 
 /* Hide the dropdown content by default */
-.dropdown-content {
+.dropdown-content,
+.saved-dropdown-content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
@@ -181,14 +183,16 @@ h2.card-title {
 }
 
 /* Show the dropdown content when dropdown button is hovered */
-.dropdown:hover .dropdown-content{
+.dropdown:hover .dropdown-content,
+.saved-dropdown:hover .saved-dropdown-content {
   display: flex;
   flex-direction: column;
   align-items:flex-start;
   margin-left: 40px;
 }
 
- .dropdown-content a {
+ .dropdown-content a,
+ .saved-dropdown-content a {
   padding: 2px 2px;
   text-decoration: none;
   color: black;
@@ -197,7 +201,8 @@ h2.card-title {
   margin-right: 40px;
 }
 
-.dropdown-content a:hover {
+.dropdown-content a:hover,
+.saved-dropdown-content a:hover {
   background-color: grey;
 }
 
@@ -234,7 +239,8 @@ h2.card-title {
   text-decoration: underline;
 }
 
-button.search-button {
+button.search-button,
+button.saved-search-button {
   margin-right: 15px;
   border-radius: 5px;
   cursor: pointer;
