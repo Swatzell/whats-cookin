@@ -82,6 +82,8 @@ recipePage.addEventListener("click", (event) => {
       saveRecipeToServer(currentUser.id, selectedRecipe.id)
         .then(data => {
           console.log("Recipe added to user's cook list:", data); // Log after successful addition
+          // Add the class to indicate the button has been clicked
+          event.target.classList.add("saved");
         })
         .catch(error => {
           console.error("Error adding recipe to user's cook list:", error); // Log any errors
@@ -205,7 +207,7 @@ function showHomePage() {
   allRecipesSection.classList.add("hidden");
   recipePage.classList.add("hidden");
   savedRecipePage.classList.add("hidden");
-  recipeHeader.innerText = "This weeks featured recipes:";
+  recipeHeader.innerText = "This week/'s featured recipes:";
   generateRecipeCards(recipes);
   populateAllRecipesPage(recipes);
   // showFullRecipe(recipes);
