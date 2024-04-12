@@ -207,7 +207,7 @@ function showHomePage() {
   allRecipesSection.classList.add("hidden");
   recipePage.classList.add("hidden");
   savedRecipePage.classList.add("hidden");
-  recipeHeader.innerText = "This week/'s featured recipes:";
+  recipeHeader.innerText = "This week's featured recipes:";
   generateRecipeCards(recipes);
   populateAllRecipesPage(recipes);
   // showFullRecipe(recipes);
