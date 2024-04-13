@@ -42,7 +42,7 @@ function initialize() {
       console.error("Error fetching data:", error);
     });
 }
-
+console.log("testing if global variable: ", users)
 addEventListener("load", function (){
   setTimeout(() => {initialize()}, 1500);
 });
@@ -149,6 +149,7 @@ savedRecipePage.addEventListener("click", (event) => {
 });
 
 searchButton.addEventListener("click", searchByName);
+savedSearchButton.addEventListener("click", searchBySavedName)
 
 function searchByName() {
   const searchName = searchInput.value;
@@ -158,6 +159,16 @@ function searchByName() {
   searchInput.value = "";
 }
 
+function searchBySavedName() {
+  console.log("SEARCH BY SAVED NAME INITIATED")
+  const searchName = searchInput.value;
+  const searchResult = searchRecipeName(currentUser.recipesToCook, searchName);
+  filteredRecipeCards(searchResult);
+  recipeHeader.innerHTML = `Search Saved Recipe Results by: "${searchInput.value}"`;
+  searchInput.value = "";
+}
+
+//TAG SEARCH 
 tagContainer.addEventListener("click", function (e) {
   console.log(e.target.closest("a"));
   if (e.target.closest("a")) {
@@ -207,7 +218,11 @@ function showHomePage() {
   allRecipesSection.classList.add("hidden");
   recipePage.classList.add("hidden");
   savedRecipePage.classList.add("hidden");
+  searchButton.classList.remove("hidden");
+  savedSearchButton.classList.add("hidden");
   recipeHeader.innerText = "This week's featured recipes:";
+  dropdownTags.classList.remove("hidden");
+  savedDropdownTags.classList.add("hidden");
   generateRecipeCards(recipes);
   populateAllRecipesPage(recipes);
   // showFullRecipe(recipes);
@@ -398,8 +413,9 @@ function getRandomUser(users) {
 }
 
 function displayUserRecipes(userName) {
-  const user = users.find(user => user.name === userName);
 
+  const user = users.find(user => user.name === userName);
+  console.log("SAVED RECIPE ARRAY:", user.recipesToCook)
   if (user) {
     savedRecipePage.innerHTML = '';
 
