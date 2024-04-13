@@ -43,8 +43,8 @@ h3, .recipe-total-cost {
     overflow: hidden;
     background-color: #ea9636;
     display: flex;
-    justify-content: center;
-    align-items: baseline;
+    justify-content: space-evenly;
+    align-items: center;
     margin-top: 15px;
     border-radius: 20px;
   }
@@ -76,7 +76,7 @@ h3, .recipe-total-cost {
   
   .topnav input[type=text] {
     padding: 6px;
-    margin-top: 8px;
+    margin-top: 0px;
     font-size: 17px;
     border: none;
     margin-left: 40px;
@@ -142,7 +142,7 @@ h3, .recipe-total-cost {
   background-color: white;
   height: 240px;
   width: 240px;
-  margin-left: 50px;
+  margin-left: 50px; /*60, 60, 35*/
   margin-right: 50px;
   margin-top: 50px;
 }
@@ -161,7 +161,8 @@ h3, .recipe-total-cost {
 
 /* CSS TO MATCH THE DROPDOWN TO THE REST OF THE TOPNAV */
 
-.dropbtn {
+.dropbtn,
+.saved-dropbtn {
   font-size: 17px;
   border: none;
   outline: none;
@@ -170,7 +171,7 @@ h3, .recipe-total-cost {
   background-color: inherit;
   margin-left: 40px;
   cursor: pointer;
-  width: 100px;
+  width: 180px;
   color: black;
 }
 
@@ -179,7 +180,8 @@ h3, .recipe-total-cost {
 }
 
 /* Hide the dropdown content by default */
-.dropdown-content {
+.dropdown-content,
+.saved-dropdown-content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
@@ -190,14 +192,16 @@ h3, .recipe-total-cost {
 }
 
 /* Show the dropdown content when dropdown button is hovered */
-.dropdown:hover .dropdown-content{
+.dropdown:hover .dropdown-content,
+.saved-dropdown:hover .saved-dropdown-content {
   display: flex;
   flex-direction: column;
   align-items:flex-start;
   margin-left: 40px;
 }
 
- .dropdown-content a {
+ .dropdown-content a,
+ .saved-dropdown-content a {
   padding: 2px 2px;
   text-decoration: none;
   color: black;
@@ -206,7 +210,8 @@ h3, .recipe-total-cost {
   margin-right: 40px;
 }
 
-.dropdown-content a:hover {
+.dropdown-content a:hover,
+.saved-dropdown-content a:hover {
   background-color: grey;
 }
 
@@ -243,7 +248,8 @@ h3, .recipe-total-cost {
   text-decoration: underline;
 }
 
-button.search-button {
+button.search-button,
+button.saved-search-button {
   margin-right: 15px;
   border-radius: 5px;
   cursor: pointer;
@@ -254,3 +260,4 @@ button.search-button {
 .save-button.saved {
   background-color: #4caf50; /* Green background color */
 }
+
