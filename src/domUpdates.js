@@ -17,6 +17,7 @@ const searchInput = document.querySelector(".search-input");
 const savedRecipePage = document.querySelector(".saved-recipes-page");
 const recipeTagsSection = document.querySelector(".recipe-tags");
 const tagContainer = document.querySelector("#tagContainer");
+const savedTagContainer = document.querySelector("#savedTagContainer")
 const saveRecipeButton = document.querySelector(".save-button");
 
 let currentUser;
@@ -84,6 +85,7 @@ recipePage.addEventListener("click", (event) => {
           console.log("Recipe added to user's cook list:", data); // Log after successful addition
           // Add the class to indicate the button has been clicked
           event.target.classList.add("saved");
+          event.target.innerText="RECIPE SAVED"
         })
         .catch(error => {
           console.error("Error adding recipe to user's cook list:", error); // Log any errors
@@ -164,11 +166,10 @@ function searchBySavedName() {
   const searchName = searchInput.value;
   const searchResult = searchRecipeName(currentUser.recipesToCook, searchName);
   filteredRecipeCards(searchResult);
-  recipeHeader.innerHTML = `Search Saved Recipe Results by: "${searchInput.value}"`;
+  recipeHeader.innerHTML = `Saved Recipe Search Results by: "${searchInput.value}"`;
   searchInput.value = "";
 }
 
-//TAG SEARCH 
 tagContainer.addEventListener("click", function (e) {
   console.log(e.target.closest("a"));
   if (e.target.closest("a")) {
@@ -176,6 +177,16 @@ tagContainer.addEventListener("click", function (e) {
     const searchResult = findRecipeTags(recipes, clickedTag);
     filteredRecipeCards(searchResult);
     recipeHeader.innerHTML = `Recipes By Tag: "${clickedTag}"`;
+  }
+});
+
+savedTagContainer.addEventListener("click", function (e) {
+  console.log(e.target.closest("a"));
+  if (e.target.closest("a")) {
+    const clickedTag = e.target.textContent;
+    const searchResult = findRecipeTags(currentUser.recipesToCook, clickedTag);
+    filteredRecipeCards(searchResult);
+    recipeHeader.innerHTML = `Saved Recipes By Tag: "${clickedTag}"`;
   }
 });
 
