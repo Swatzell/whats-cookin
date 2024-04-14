@@ -14,12 +14,12 @@ import recipeArray from "./test-array"
 describe("Recipe Tag", () => {
  it("Should return a filtered list of recipes based on a tag", () => {
     const recipe = findRecipeTags(recipeArray, "sauce");
-    expect(recipe[0].name).to.deep.equal("Dirty Steve's Original Wing Sauce");
+    expect(recipe[0]).to.deep.equal(constants.wingSauce);
   });
 
   it("Should return a filtered list of recipes based on a tag regardless of case sensitivity", () => {
     const recipe = findRecipeTags(recipeArray, "sauce");
-    expect(recipe[0].name).to.deep.equal("Dirty Steve's Original Wing Sauce");
+    expect(recipe[0]).to.deep.equal(constants.wingSauce);
   });
 
   describe("Recipe Ingredient", () => {
