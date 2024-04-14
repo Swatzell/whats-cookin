@@ -17,7 +17,7 @@ const searchInput = document.querySelector(".search-input");
 const savedRecipePage = document.querySelector(".saved-recipes-page");
 const recipeTagsSection = document.querySelector(".recipe-tags");
 const tagContainer = document.querySelector("#tagContainer");
-const savedTagContainer = document.querySelector("#savedTagContainer")
+const savedTagContainer = document.querySelector('#savedTagContainer')
 const saveRecipeButton = document.querySelector(".save-button");
 
 let currentUser;
@@ -85,7 +85,7 @@ recipePage.addEventListener("click", (event) => {
           console.log("Recipe added to user's cook list:", data); // Log after successful addition
           // Add the class to indicate the button has been clicked
           event.target.classList.add("saved");
-          event.target.innerText="RECIPE SAVED"
+          event.target.innerText='RECIPE SAVED'
         })
         .catch(error => {
           console.error("Error adding recipe to user's cook list:", error); // Log any errors
