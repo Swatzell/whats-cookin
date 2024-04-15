@@ -151,24 +151,25 @@ savedRecipePage.addEventListener("click", (event) => {
 });
 
 searchButton.addEventListener("click", searchByName);
-savedSearchButton.addEventListener("click", searchBySavedName)
+savedSearchButton.addEventListener("click", searchByName)
 
-function searchByName() {
+function searchByName(e) {
   const searchName = searchInput.value;
-  const searchResult = searchRecipeName(recipes, searchName);
+  let searchResult;
+  let headerText;
+  if (e.target === searchButton) {
+    searchResult = searchRecipeName(recipes, searchName);
+    headerText = `Search Results by: "${searchInput.value}"`;
+  } else if (e.target === savedSearchButton) {
+    searchResult = searchRecipeName(currentUser.recipesToCook, searchName);
+    headerText = `Saved Recipe Search Results by: "${searchInput.value}"`;
+  }
+  
   filteredRecipeCards(searchResult);
-  recipeHeader.innerHTML = `Search Results by: "${searchInput.value}"`;
+  recipeHeader.innerHTML = headerText;
   searchInput.value = "";
 }
 
-function searchBySavedName() {
-  console.log("SEARCH BY SAVED NAME INITIATED")
-  const searchName = searchInput.value;
-  const searchResult = searchRecipeName(currentUser.recipesToCook, searchName);
-  filteredRecipeCards(searchResult);
-  recipeHeader.innerHTML = `Saved Recipe Search Results by: "${searchInput.value}"`;
-  searchInput.value = "";
-}
 
 tagContainer.addEventListener("click", function (e) {
   console.log(e.target.closest("a"));
