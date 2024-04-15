@@ -16,19 +16,12 @@ const savedDropdownTags = document.querySelector(".saved-dropdown")
 const viewRecipesToCookSection = document.querySelector(".saved-recipe-button");
 const searchInput = document.querySelector(".search-input");
 const searchButton = document.querySelector(".search-button");
-
-
-
-
-
-
 const savedSearchButton = document.querySelector(".saved-search-button")
 const savedRecipePage = document.querySelector(".saved-recipes-page");
 const recipeTagsSection = document.querySelector(".recipe-tags");
 const tagContainer = document.querySelector("#tagContainer");
 const savedTagContainer = document.querySelector('#savedTagContainer')
 const saveRecipeButton = document.querySelector(".save-button");
-
 
 let currentUser;
 let users = [];
@@ -181,7 +174,6 @@ function searchByName(e) {
 }
 
 
-//TAG SEARCH 
 tagContainer.addEventListener("click", function (e) {
   console.log(e.target.closest("a"));
   if (e.target.closest("a")) {
@@ -215,10 +207,6 @@ function showSavedRecipesPage() {
   allRecipesSection.classList.add("hidden");
   recipePage.classList.add("hidden");
   savedRecipePage.classList.remove("hidden");
-  searchButton.classList.add("hidden")
-  savedSearchButton.classList.remove("hidden")
-  dropdownTags.classList.add("hidden")
-  savedDropdownTags.classList.remove("hidden")
   displayUserRecipes(currentUser.name);
 }
 
@@ -236,10 +224,6 @@ function showAllRecipesPage() {
   allRecipesSection.classList.remove("hidden");
   recipePage.classList.add("hidden");
   savedRecipePage.classList.add("hidden");
-  searchButton.classList.remove("hidden");
-  savedSearchButton.classList.add("hidden");
-  dropdownTags.classList.remove("hidden");
-  savedDropdownTags.classList.add("hidden");
 }
 
 function showHomePage() {
