@@ -253,10 +253,6 @@ function showHomePage() {
   // showFullRecipe(recipes);
 }
 
-
-
-
-
 function populateAllRecipesPage(data) {
   let recipes;
 
@@ -303,8 +299,6 @@ function displayIngredients(selectedRecipe, ingredients) {
   });
   return { ingredientsTitle, ingredientsList };
 }
-
-
 
 function calculateRecipeCost(selectedRecipe, ingredients) {
   let totalCost = 0;
