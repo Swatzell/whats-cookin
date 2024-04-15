@@ -16,6 +16,12 @@ const savedDropdownTags = document.querySelector(".saved-dropdown")
 const viewRecipesToCookSection = document.querySelector(".saved-recipe-button");
 const searchInput = document.querySelector(".search-input");
 const searchButton = document.querySelector(".search-button");
+
+
+
+
+
+
 const savedSearchButton = document.querySelector(".saved-search-button")
 const savedRecipePage = document.querySelector(".saved-recipes-page");
 const recipeTagsSection = document.querySelector(".recipe-tags");
