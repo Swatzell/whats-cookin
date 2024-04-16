@@ -62,4 +62,3 @@ describe("Recipe Ingredient List", () => {
   });
 });
 
-//<><><><><>TO DO: Create Filter for two tags<><><><><>

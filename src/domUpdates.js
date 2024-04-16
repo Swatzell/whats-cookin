@@ -1,6 +1,11 @@
 import { searchRecipeName, findRecipeTags } from "./recipes";
 import { getRandomInt } from "./random";
-import { fetchUsers, fetchIngredients, fetchRecipes, saveRecipeToServer } from './apiCalls.js';
+import {
+  fetchUsers,
+  fetchIngredients,
+  fetchRecipes,
+  saveRecipeToServer,
+} from "./apiCalls.js";
 
 const homeSection = document.querySelector(".main-page");
 const recipePage = document.querySelector(".recipe-page");
@@ -9,19 +14,15 @@ const allRecipesSection = document.querySelector(".all-recipes-page");
 const homeButton = document.querySelector(".home-button");
 const recipeButton = document.querySelector(".recipe-button");
 const recipeHeader = document.querySelector(".featured-recipes-header");
-const dropdownButton = document.querySelector(".dropbtn");
 const dropdownTags = document.querySelector(".dropdown");
-const savedDropdownTags = document.querySelector(".saved-dropdown")
+const savedDropdownTags = document.querySelector(".saved-dropdown");
 const viewRecipesToCookSection = document.querySelector(".saved-recipe-button");
 const searchInput = document.querySelector(".search-input");
 const searchButton = document.querySelector(".search-button");
-const savedSearchButton = document.querySelector(".saved-search-button")
+const savedSearchButton = document.querySelector(".saved-search-button");
 const savedRecipePage = document.querySelector(".saved-recipes-page");
-const recipeTagsSection = document.querySelector(".recipe-tags");
 const tagContainer = document.querySelector("#tagContainer");
-const savedTagContainer = document.querySelector('#savedTagContainer')
-const saveRecipeButton = document.querySelector(".save-button");
-
+const savedTagContainer = document.querySelector("#savedTagContainer");
 
 let currentUser;
 let users = [];
@@ -30,25 +31,26 @@ let recipes = [];
 
 function initialize() {
   Promise.all([fetchUsers(), fetchIngredients(), fetchRecipes()])
-  
-  .then(([fetchedUsers, fetchedIngredients, fetchedRecipes]) => {
+
+    .then(([fetchedUsers, fetchedIngredients, fetchedRecipes]) => {
       users = fetchedUsers.users;
       ingredients = fetchedIngredients.ingredients;
       recipes = fetchedRecipes.recipes;
-      // console.log(users.users)
       currentUser = getRandomUser(users);
       populateAllRecipesPage(recipes);
       generateRecipeCards(recipes);
-      displayIngredients(recipes[0],ingredients);
+      displayIngredients(recipes[0], ingredients);
       displayUserRecipes(users);
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error fetching data:", error);
     });
 }
-console.log("testing if global variable: ", users)
-addEventListener("load", function (){
-  setTimeout(() => {initialize()}, 1500);
+console.log("testing if global variable: ", users);
+addEventListener("load", function () {
+  setTimeout(() => {
+    initialize();
+  }, 1500);
 });
 
 viewRecipesToCookSection.addEventListener("click", showSavedRecipesPage);
@@ -72,8 +74,6 @@ homeButton.addEventListener("click", function () {
   showHomePage();
 });
 
-
-
 recipePage.addEventListener("click", (event) => {
   if (event.target.classList.contains("save-button")) {
     const recipeId = parseInt(event.target.closest(".full-recipe-view").id);
@@ -82,16 +82,15 @@ recipePage.addEventListener("click", (event) => {
     if (selectedRecipe) {
       console.log("Adding recipe to cook list...");
       addRecipeToCook(currentUser.id, selectedRecipe.id);
-      console.log("Adding recipe to user's cook list..."); // Log before calling addRecipeToUserCook
+      console.log("Adding recipe to user's cook list...");
       saveRecipeToServer(currentUser.id, selectedRecipe.id)
-        .then(data => {
-          console.log("Recipe added to user's cook list:", data); // Log after successful addition
-          // Add the class to indicate the button has been clicked
+        .then((data) => {
+          console.log("Recipe added to user's cook list:", data);
           event.target.classList.add("saved");
-          event.target.innerText='RECIPE SAVED'
+          event.target.innerText = "RECIPE SAVED";
         })
-        .catch(error => {
-          console.error("Error adding recipe to user's cook list:", error); // Log any errors
+        .catch((error) => {
+          console.error("Error adding recipe to user's cook list:", error);
         });
     }
   }
@@ -100,7 +99,7 @@ recipePage.addEventListener("click", (event) => {
 savedRecipePage.addEventListener("click", (event) => {
   if (event.target.classList.contains("remove-button")) {
     const closestBox = event.target.closest(".remove-recipe");
-    
+
     if (closestBox) {
       const recipeId = parseInt(closestBox.previousElementSibling.id, 10);
 
@@ -114,8 +113,6 @@ savedRecipePage.addEventListener("click", (event) => {
 
       removeRecipeFromCook(currentUser.id, recipeId);
       displayUserRecipes(currentUser.name);
-      console.log("REMOVE RECIPE FROM COOK FUNCTION INITITATED");
-      console.log("DISPLAY USER RECIPES FUNCTION INITITATED");
     }
   }
 });
@@ -154,7 +151,7 @@ savedRecipePage.addEventListener("click", (event) => {
 });
 
 searchButton.addEventListener("click", searchByName);
-savedSearchButton.addEventListener("click", searchByName)
+savedSearchButton.addEventListener("click", searchByName);
 
 function searchByName(e) {
   const searchName = searchInput.value;
@@ -167,14 +164,12 @@ function searchByName(e) {
     searchResult = searchRecipeName(currentUser.recipesToCook, searchName);
     headerText = `Saved Recipe Search Results by: "${searchInput.value}"`;
   }
-  
+
   filteredRecipeCards(searchResult);
   recipeHeader.innerHTML = headerText;
   searchInput.value = "";
 }
 
-
-//TAG SEARCH 
 tagContainer.addEventListener("click", function (e) {
   console.log(e.target.closest("a"));
   if (e.target.closest("a")) {
@@ -201,17 +196,17 @@ function navigateToRecipePage() {
   recipePage.classList.remove("hidden");
   savedRecipePage.classList.add("hidden");
 }
-//vvv Change to Saved Recipes Page
+
 function showSavedRecipesPage() {
   console.log("SAVED RECIPES PAGE FUNCTION INITITATED");
   homeSection.classList.add("hidden");
   allRecipesSection.classList.add("hidden");
   recipePage.classList.add("hidden");
   savedRecipePage.classList.remove("hidden");
-  searchButton.classList.add("hidden")
-  savedSearchButton.classList.remove("hidden")
-  dropdownTags.classList.add("hidden")
-  savedDropdownTags.classList.remove("hidden")
+  searchButton.classList.add("hidden");
+  savedSearchButton.classList.remove("hidden");
+  dropdownTags.classList.add("hidden");
+  savedDropdownTags.classList.remove("hidden");
   displayUserRecipes(currentUser.name);
 }
 
@@ -249,13 +244,11 @@ function showHomePage() {
   savedDropdownTags.classList.add("hidden");
   generateRecipeCards(recipes);
   populateAllRecipesPage(recipes);
-  // showFullRecipe(recipes);
 }
 
 function populateAllRecipesPage(data) {
   let recipes;
 
-  // Check if data is an object with a 'recipes' property
   if (Array.isArray(data.recipes)) {
     recipes = data.recipes;
   } else if (Array.isArray(data)) {
@@ -351,7 +344,6 @@ function showFullRecipe(selectedRecipe) {
   `;
 }
 
-//vvvvv This only works on the main
 function findRecipeById(event) {
   console.log("FIND RECIPE BY ID INITIATED");
   const recipeId = +event.target.closest(".featured-recipe-box").id;
@@ -364,7 +356,7 @@ function findRecipeById(event) {
 }
 
 function generateRecipeCards(recipes) {
-  featuredRecipesSection.innerHTML = ""; 
+  featuredRecipesSection.innerHTML = "";
 
   for (let i = 0; i < 3 && i < recipes.length; i++) {
     const recipe = recipes[i];
@@ -380,8 +372,6 @@ function generateRecipeCards(recipes) {
 }
 
 function addRecipeToCook(userId, recipeId) {
-
-  console.log("does this work");
   const user = users.find((user) => user.id === userId);
   const recipe = recipes.find((recipe) => recipe.id === recipeId);
 
@@ -393,35 +383,33 @@ function addRecipeToCook(userId, recipeId) {
   }
 }
 
-//this is a copy and paste that is dedicated towards searches
 function filteredRecipeCards(recipeInput) {
   console.log("FILTERED RECIPE CARDS INITIATED");
   resetFilteredResultsPage();
-  if (recipeInput === "No Results Found"){
-    featuredRecipesSection.innerHTML=`${recipeInput}`
-  } else 
-  // Display only the first 3 recipes
-  for (let i = 0; i < recipeInput.length; i++) {
-    const recipe = recipeInput[i];
+  if (recipeInput === "No Results Found") {
+    featuredRecipesSection.innerHTML = `${recipeInput}`;
+  } else
+    for (let i = 0; i < recipeInput.length; i++) {
+      const recipe = recipeInput[i];
 
-    const card = document.createElement("div");
-    card.className = "featured-recipe-box";
-    card.id = recipe.id;
+      const card = document.createElement("div");
+      card.className = "featured-recipe-box";
+      card.id = recipe.id;
 
-    const image = document.createElement("img");
-    image.className = "card-image";
-    image.src = recipe.image;
-    image.alt = recipe.name;
+      const image = document.createElement("img");
+      image.className = "card-image";
+      image.src = recipe.image;
+      image.alt = recipe.name;
 
-    const title = document.createElement("h2");
-    title.className = "card-title";
-    title.textContent = recipe.name;
+      const title = document.createElement("h2");
+      title.className = "card-title";
+      title.textContent = recipe.name;
 
-    card.appendChild(image);
-    card.appendChild(title);
+      card.appendChild(image);
+      card.appendChild(title);
 
-    featuredRecipesSection.appendChild(card);
-  }
+      featuredRecipesSection.appendChild(card);
+    }
 }
 
 function getRandomUser(users) {
@@ -431,14 +419,12 @@ function getRandomUser(users) {
 }
 
 function displayUserRecipes(userName) {
-
-  const user = users.find(user => user.name === userName);
-  console.log("SAVED RECIPE ARRAY:", user.recipesToCook)
+  const user = users.find((user) => user.name === userName);
   if (user) {
-    savedRecipePage.innerHTML = '';
+    savedRecipePage.innerHTML = "";
 
-    user.recipesToCook.forEach(recipe => {
-          const cardHTML = `
+    user.recipesToCook.forEach((recipe) => {
+      const cardHTML = `
             <div class="featured-recipe-box" id="${recipe.id}">
               <img class="card-image" src="${recipe.image}" alt="${recipe.name}">
               <h2 class="card-title">${recipe.name}</h2>
@@ -447,9 +433,7 @@ function displayUserRecipes(userName) {
               <button class="remove-button">REMOVE</button>
             </div>
           `;
-          savedRecipePage.innerHTML += cardHTML;
-
-      })
-    }
+      savedRecipePage.innerHTML += cardHTML;
+    });
   }
-
+}
