@@ -1,4 +1,3 @@
-
 import { searchRecipeName, findRecipeTags } from "./recipes";
 import { getRandomInt } from "./random";
 import { fetchUsers, fetchIngredients, fetchRecipes, saveRecipeToServer } from './apiCalls.js';
@@ -22,6 +21,7 @@ const recipeTagsSection = document.querySelector(".recipe-tags");
 const tagContainer = document.querySelector("#tagContainer");
 const savedTagContainer = document.querySelector('#savedTagContainer')
 const saveRecipeButton = document.querySelector(".save-button");
+
 
 let currentUser;
 let users = [];
@@ -174,6 +174,7 @@ function searchByName(e) {
 }
 
 
+//TAG SEARCH 
 tagContainer.addEventListener("click", function (e) {
   console.log(e.target.closest("a"));
   if (e.target.closest("a")) {
@@ -207,6 +208,10 @@ function showSavedRecipesPage() {
   allRecipesSection.classList.add("hidden");
   recipePage.classList.add("hidden");
   savedRecipePage.classList.remove("hidden");
+  searchButton.classList.add("hidden")
+  savedSearchButton.classList.remove("hidden")
+  dropdownTags.classList.add("hidden")
+  savedDropdownTags.classList.remove("hidden")
   displayUserRecipes(currentUser.name);
 }
 
@@ -224,6 +229,10 @@ function showAllRecipesPage() {
   allRecipesSection.classList.remove("hidden");
   recipePage.classList.add("hidden");
   savedRecipePage.classList.add("hidden");
+  searchButton.classList.remove("hidden");
+  savedSearchButton.classList.add("hidden");
+  dropdownTags.classList.remove("hidden");
+  savedDropdownTags.classList.add("hidden");
 }
 
 function showHomePage() {
@@ -429,7 +438,6 @@ function displayUserRecipes(userName) {
     savedRecipePage.innerHTML = '';
 
     user.recipesToCook.forEach(recipe => {
-
           const cardHTML = `
             <div class="featured-recipe-box" id="${recipe.id}">
               <img class="card-image" src="${recipe.image}" alt="${recipe.name}">

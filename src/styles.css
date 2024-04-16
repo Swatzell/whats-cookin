@@ -13,23 +13,16 @@ body {
 
 h1 {
   text-align: center;
-  margin-top: 10;
+  margin-top: 0;
   font-family: cursive;
   text-decoration: wavy;
-  font-size: 4.5rem;
+  font-size: 3.5rem;
 }
 
 h2.card-title {
   margin: 10px;
-  font-size: 19px;
+  font-size: 16px;
   font-weight: bold;
-  display: flex;
-  justify-content: center;
-}
-
-h3, .recipe-total-cost {
-  margin-left: 20px;
-  text-decoration: underline;
 }
 
 .main-title {
@@ -45,7 +38,7 @@ h3, .recipe-total-cost {
     display: flex;
     justify-content: center;
     align-items: baseline;
-    margin-top: 15px;
+    margin-top: 20px;
     border-radius: 20px;
   }
   
@@ -124,12 +117,10 @@ h3, .recipe-total-cost {
 }
 
 .featured-recipes-header {
-  margin-top: 100px;
-  margin-bottom: 50px;
+  margin-top: 150px;
+  margin-bottom: 0px;
   display: flex;
   justify-content: center;
-  font-size: 40px;
-  font-weight: bold;
 }
 
 .featured-recipe-box {
@@ -140,11 +131,11 @@ h3, .recipe-total-cost {
   border: solid 2px;
   border-radius: 5px;
   background-color: white;
-  height: 240px;
-  width: 240px;
-  margin-left: 50px;
-  margin-right: 50px;
-  margin-top: 50px;
+  height: 220px;
+  width: 220px;
+  margin-left: 70px;
+  margin-right: 70px;
+  margin-top: 70px;
 }
 
 .card.title {
@@ -161,7 +152,8 @@ h3, .recipe-total-cost {
 
 /* CSS TO MATCH THE DROPDOWN TO THE REST OF THE TOPNAV */
 
-.dropbtn {
+.dropbtn,
+.saved-dropbtn {
   font-size: 17px;
   border: none;
   outline: none;
@@ -179,7 +171,8 @@ h3, .recipe-total-cost {
 }
 
 /* Hide the dropdown content by default */
-.dropdown-content {
+.dropdown-content,
+.saved-dropdown-content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
@@ -190,14 +183,16 @@ h3, .recipe-total-cost {
 }
 
 /* Show the dropdown content when dropdown button is hovered */
-.dropdown:hover .dropdown-content{
+.dropdown:hover .dropdown-content,
+.saved-dropdown:hover .saved-dropdown-content {
   display: flex;
   flex-direction: column;
   align-items:flex-start;
   margin-left: 40px;
 }
 
- .dropdown-content a {
+ .dropdown-content a,
+ .saved-dropdown-content a {
   padding: 2px 2px;
   text-decoration: none;
   color: black;
@@ -206,7 +201,8 @@ h3, .recipe-total-cost {
   margin-right: 40px;
 }
 
-.dropdown-content a:hover {
+.dropdown-content a:hover,
+.saved-dropdown-content a:hover {
   background-color: grey;
 }
 
@@ -243,7 +239,8 @@ h3, .recipe-total-cost {
   text-decoration: underline;
 }
 
-button.search-button {
+button.search-button,
+button.saved-search-button {
   margin-right: 15px;
   border-radius: 5px;
   cursor: pointer;
