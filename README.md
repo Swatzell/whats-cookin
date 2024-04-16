@@ -1,6 +1,6 @@
 ### Abstract:
 [//]: <> (Briefly describe what you built and its features. What problem is the app solving? How does this application solve that problem?)
-The intent What's Cookin? Pt 2 was to continue functionality of a recipe webpage. Whereas the first iteration of the webpage filtered local recipe data and displayed them onto interactive recipe cards, the current iteration works with API Fetch requets. Here, not only does recipe data come from API requests, but also user data is randomly generated through the server. In addition, when a user chooses to "Save To Recipes", the data is stored using an POST request storing the data using API. 
+The intent What's Cookin? Pt 2 was to continue functionality of a recipe webpage. Whereas the first iteration of the webpage filtered local recipe data and displayed them onto interactive recipe cards, the current iteration works with API Fetch requets. Here, not only does recipe data come from API requests, but also user data is randomly generated through the server. In addition, when a user chooses to "Save To Recipes", the data is stored using a POST method storing the data using API requests.
 
 ### Installation Instructions:
 [//]: <> (What steps does a person have to take to get your app cloned down and running?)
