@@ -9,6 +9,3 @@ import ingredientsData from './data/ingredients'
 import { findRecipeIngredients } from './recipes';
 import { displayRecipes } from './domUpdates'
 
-// console.log(ingredientsData)
-// findRecipeIngredients("Dirty Steve's Original Wing Sauce")
-// displayRecipes();

@@ -21,7 +21,7 @@ export function fetchUsers() {
       recipeID: recipeId,
     };
   
-    console.log("Sending request:", requestBody); // Log the request body
+    console.log("Sending request:", requestBody); 
   
     return fetch("http://localhost:3001/api/v1/usersRecipes", {
       method: "POST",
@@ -31,15 +31,15 @@ export function fetchUsers() {
       body: JSON.stringify(requestBody),
     })
     .then(response => {
-      console.log("Received response:", response); // Log the response
+      console.log("Received response:", response); 
       return response.json();
     })
     .then(data => {
-      console.log("Received data:", data); // Log the parsed JSON data
+      console.log("Received data:", data);
       return data;
     })
     .catch(error => {
-      console.error("Error:", error); // Log any errors
+      console.error("Error:", error);
       throw error;
     });
   }
